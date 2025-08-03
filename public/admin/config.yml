@@ -34,8 +34,6 @@ collections:
       - title
       - date
       - author
-    view_filters: []
-    view_groups: []
 
   - name: pages
     label: 페이지
@@ -49,5 +47,3 @@ collections:
       - commit_date
       - title
       - commit_author
-    view_filters: []
-    view_groups: []
