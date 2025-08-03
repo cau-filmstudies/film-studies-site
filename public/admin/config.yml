@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: cau-filmstudies/film-studies-site
   branch: main
+  auth_scope: repo
+  client_id: Ov23liBjeVlGePbmwgaz
 
 media_folder: public/images/uploads
 public_folder: /images/uploads
