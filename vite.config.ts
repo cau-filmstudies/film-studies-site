@@ -8,7 +8,6 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/film-studies-site/',
   plugins: [
     react(),
     mdx({
