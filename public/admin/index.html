@@ -51,15 +51,15 @@
 
     <!-- CMS 설정 -->
     <script>
-      // GitHub OAuth 설정
+      // 간단한 GitHub OAuth 설정
       const config = {
         backend: {
           name: 'github',
           repo: 'cau-filmstudies/film-studies-site',
           branch: 'main',
           auth_scope: 'repo',
-          // Netlify Identity 사용 (권장)
-          auth_endpoint: 'https://cau-film.netlify.app/.netlify/identity',
+          // GitHub OAuth 직접 사용
+          base_url: 'https://api.netlify.com',
         },
         media_folder: 'public/images/uploads',
         public_folder: '/images/uploads',
