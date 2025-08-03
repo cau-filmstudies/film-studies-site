@@ -22,26 +22,30 @@ const CommunityBoard = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        // GitHub API를 통해 content/board 폴더의 파일 목록을 가져옴
-        const response = await fetch(
-          'https://api.github.com/repos/cau-filmstudies/film-studies-site/contents/content/board'
-        )
-        const files = await response.json()
-
-        // .md와 .mdx 파일만 필터링
-        const markdownFiles = files.filter(
-          (file: any) => file.name.endsWith('.md') || file.name.endsWith('.mdx')
-        )
+        // GitHub Raw URL을 통해 직접 파일들을 로드
+        const boardFiles = [
+          {
+            name: '20250802-welcome.mdx',
+            url: 'https://raw.githubusercontent.com/cau-filmstudies/film-studies-site/main/content/board/20250802-welcome.mdx',
+            slug: '20250802-welcome',
+          },
+          {
+            name: '20250803-test.md',
+            url: 'https://raw.githubusercontent.com/cau-filmstudies/film-studies-site/main/content/board/20250803-test.md',
+            slug: '20250803-test',
+          },
+        ]
 
         // 각 파일의 내용을 가져와서 파싱
         const loadedPosts = await Promise.all(
-          markdownFiles.map(async (file: any) => {
+          boardFiles.map(async file => {
             try {
-              const contentResponse = await fetch(file.download_url)
-              const content = await contentResponse.text()
+              const response = await fetch(file.url)
+              if (!response.ok) {
+                throw new Error(`Failed to fetch ${file.name}`)
+              }
+              const content = await response.text()
               const { data, content: bodyContent } = matter(content)
-
-              const slug = file.name.replace(/\.(md|mdx)$/, '')
 
               return {
                 title: data.title || '',
@@ -50,7 +54,7 @@ const CommunityBoard = () => {
                 thumbnail: data.thumbnail || '',
                 images: data.images || [],
                 body: bodyContent,
-                slug,
+                slug: file.slug,
               }
             } catch (error) {
               console.error(`Error loading ${file.name}:`, error)
