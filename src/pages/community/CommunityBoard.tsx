@@ -20,14 +20,19 @@ const CommunityBoard = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        // 실제 MDX 파일들을 동적으로 import
-        const boardModules = (import.meta as any).glob('/content/board/*.mdx', {
-          eager: true,
-        })
+        // .mdx와 .md 파일 모두 읽기
+        const boardModules = (import.meta as any).glob(
+          '/content/board/*.{md,mdx}',
+          {
+            eager: true,
+          }
+        )
 
         const loadedPosts = Object.entries(boardModules).map(
           ([path, module]) => {
-            const slug = path.replace('/content/board/', '').replace('.mdx', '')
+            const slug = path
+              .replace('/content/board/', '')
+              .replace(/\.(md|mdx)$/, '')
             const { data, content } = matter((module as any).default)
 
             return {

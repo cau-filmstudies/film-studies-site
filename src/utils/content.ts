@@ -11,12 +11,17 @@ export interface BoardPost {
 
 export const getBoardPosts = async (): Promise<BoardPost[]> => {
   try {
-    const boardModules = import.meta.glob('/content/board/*.mdx', {
-      eager: true,
-    })
+    const boardModules = (import.meta as any).glob(
+      '/content/board/*.{md,mdx}',
+      {
+        eager: true,
+      }
+    )
 
     const posts = Object.entries(boardModules).map(([path, module]) => {
-      const slug = path.replace('/content/board/', '').replace('.mdx', '')
+      const slug = path
+        .replace('/content/board/', '')
+        .replace(/\.(md|mdx)$/, '')
       const { data, content } = matter((module as any).default)
 
       return {
@@ -39,7 +44,18 @@ export const getBoardPosts = async (): Promise<BoardPost[]> => {
 
 export const getBoardPost = async (slug: string): Promise<BoardPost | null> => {
   try {
-    const module = await import(`/content/board/${slug}.mdx`)
+    // .md와 .mdx 파일 모두 시도
+    let module
+    try {
+      module = await import(`/content/board/${slug}.mdx`)
+    } catch {
+      try {
+        module = await import(`/content/board/${slug}.md`)
+      } catch {
+        return null
+      }
+    }
+
     const { data, content } = matter(module.default)
 
     return {
