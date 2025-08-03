@@ -48,5 +48,71 @@
 
     <!-- Decap CMS - 안정적인 버전 -->
     <script src="https://unpkg.com/decap-cms@3.7.0/dist/decap-cms.js"></script>
+
+    <!-- CMS 설정 -->
+    <script>
+      // GitHub OAuth 설정
+      const config = {
+        backend: {
+          name: 'github',
+          repo: 'cau-filmstudies/film-studies-site',
+          branch: 'main',
+          auth_scope: 'repo',
+          client_id: 'Ov23libaKgVihLREnBGa',
+          client_secret: '5008231cc78d25797d657fca202e716b50e0a048',
+        },
+        media_folder: 'public/images/uploads',
+        public_folder: '/images/uploads',
+        collections: [
+          {
+            name: 'board',
+            label: '게시판',
+            folder: 'content/board',
+            create: true,
+            slug: '{{year}}{{month}}{{day}}-{{slug}}',
+            fields: [
+              {
+                label: '제목',
+                name: 'title',
+                widget: 'string',
+                required: true,
+              },
+              {
+                label: '작성일',
+                name: 'date',
+                widget: 'datetime',
+                format: 'YYYY-MM-DD',
+                date_format: 'YYYY-MM-DD',
+                time_format: false,
+                default: 'now',
+              },
+              {
+                label: '작성자',
+                name: 'author',
+                widget: 'string',
+                required: true,
+              },
+              {
+                label: '내용',
+                name: 'body',
+                widget: 'markdown',
+                required: true,
+              },
+            ],
+          },
+        ],
+      }
+
+      // CMS 초기화
+      if (window.CMS) {
+        window.CMS.init({ config })
+      } else {
+        document.addEventListener('DOMContentLoaded', function () {
+          if (window.CMS) {
+            window.CMS.init({ config })
+          }
+        })
+      }
+    </script>
   </body>
 </html>
