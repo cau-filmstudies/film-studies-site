@@ -1,0 +1,77 @@
+const config = {
+  backend: {
+    name: 'github',
+    repo: 'cau-film/film-studies-site',
+    branch: 'main',
+    auth_scope: 'repo',
+    open_authoring: false,
+    editorial_workflow: true,
+  },
+  media_folder: 'public/images/uploads',
+  public_folder: '/images/uploads',
+  collections: [
+    {
+      name: 'board',
+      label: '게시판',
+      folder: 'content/board',
+      create: true,
+      slug: '{{year}}{{month}}{{day}}-{{slug}}',
+      fields: [
+        {
+          label: '제목',
+          name: 'title',
+          widget: 'string',
+          required: true,
+        },
+        {
+          label: '작성일',
+          name: 'date',
+          widget: 'datetime',
+          format: 'YYYY-MM-DD',
+          date_format: 'YYYY-MM-DD',
+          time_format: false,
+          default: 'now',
+        },
+        {
+          label: '작성자',
+          name: 'author',
+          widget: 'string',
+          required: false,
+        },
+        {
+          label: '내용',
+          name: 'body',
+          widget: 'markdown',
+          required: true,
+        },
+      ],
+    },
+  ],
+}
+
+// 안전한 CMS 초기화
+function initCMS() {
+  try {
+    if (window.CMS) {
+      // 이미 초기화되었는지 확인
+      if (window.CMS.init) {
+        window.CMS.registerPreviewStyle('/src/index.css')
+        window.CMS.init({ config })
+      }
+    } else {
+      // CMS가 아직 로드되지 않았으면 잠시 후 다시 시도
+      setTimeout(initCMS, 100)
+    }
+  } catch (error) {
+    console.error('CMS 초기화 오류:', error)
+    // 오류 발생 시 다시 시도
+    setTimeout(initCMS, 500)
+  }
+}
+
+// DOM이 로드된 후 CMS 초기화
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCMS)
+} else {
+  initCMS()
+}

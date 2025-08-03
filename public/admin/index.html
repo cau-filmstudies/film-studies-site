@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMS - 중앙대학교 영화학과</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      #nc-root {
+        min-height: 100vh;
+      }
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-size: 18px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nc-root">
+      <div class="loading">CMS 로딩 중...</div>
+    </div>
+
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v3/netlify-identity-widget.js"></script>
+
+    <!-- Decap CMS - jsDelivr CDN 사용 -->
+    <script src="https://cdn.jsdelivr.net/npm/decap-cms@3.8.3/dist/decap-cms.js"></script>
+
+    <!-- CMS 설정 -->
+    <script src="cms-config.js"></script>
+  </body>
+</html>
