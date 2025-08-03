@@ -22,45 +22,36 @@ const CommunityBoard = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        // 정적 파일 목록 (실제 파일들)
-        const boardFiles = [
+        // 동적으로 모든 board 파일들을 로드
+        const boardModules = (import.meta as any).glob(
+          '/content/board/*.{md,mdx}',
           {
-            path: '/content/board/20250802-welcome.mdx',
-            slug: '20250802-welcome',
-          },
-          {
-            path: '/content/board/20250803-test.md',
-            slug: '20250803-test',
-          },
-        ]
-
-        const loadedPosts = await Promise.all(
-          boardFiles.map(async file => {
-            try {
-              const module = await import(file.path)
-              const { data, content } = matter(module.default)
-
-              return {
-                title: data.title || '',
-                date: data.date || '',
-                author: data.author || '',
-                thumbnail: data.thumbnail || '',
-                images: data.images || [],
-                body: content,
-                slug: file.slug,
-              }
-            } catch (error) {
-              console.error(`Error loading ${file.path}:`, error)
-              return null
-            }
-          })
+            eager: true,
+            import: 'default',
+          }
         )
 
-        // null 값 제거하고 날짜순으로 정렬
-        const validPosts = loadedPosts.filter(
-          post => post !== null
-        ) as BoardPost[]
-        const sortedPosts = validPosts.sort(
+        const loadedPosts = Object.entries(boardModules).map(
+          ([path, content]) => {
+            const slug = path
+              .replace('/content/board/', '')
+              .replace(/\.(md|mdx)$/, '')
+            const { data, content: bodyContent } = matter(content as string)
+
+            return {
+              title: data.title || '',
+              date: data.date || '',
+              author: data.author || '',
+              thumbnail: data.thumbnail || '',
+              images: data.images || [],
+              body: bodyContent,
+              slug,
+            }
+          }
+        )
+
+        // 날짜순으로 정렬 (최신순)
+        const sortedPosts = loadedPosts.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         )
 
