@@ -15,7 +15,11 @@ const Navbar = () => {
       label: t('nav.about'),
       path: '/about',
       submenu: [
-        { key: 'major', label: t('nav.about.major'), path: '/about/major' },
+        {
+          key: 'major',
+          label: t('nav.about.major'),
+          path: '/about/major',
+        },
         {
           key: 'history',
           label: t('nav.about.history'),
@@ -31,8 +35,16 @@ const Navbar = () => {
           label: t('nav.about.faculty'),
           path: '/about/faculty',
         },
-        { key: 'campus', label: t('nav.about.campus'), path: '/about/campus' },
-        { key: 'alumni', label: t('nav.about.alumni'), path: '/about/alumni' },
+        {
+          key: 'campus',
+          label: t('nav.about.campus'),
+          path: '/about/campus',
+        },
+        {
+          key: 'alumni',
+          label: t('nav.about.alumni'),
+          path: '/about/alumni',
+        },
       ],
     },
     {
@@ -80,9 +92,9 @@ const Navbar = () => {
       path: '/community',
       submenu: [
         {
-          key: 'notice',
-          label: t('nav.community.notice'),
-          path: '/community/notice',
+          key: 'board',
+          label: t('nav.community.board'),
+          path: '/community/board',
         },
         {
           key: 'gallery',

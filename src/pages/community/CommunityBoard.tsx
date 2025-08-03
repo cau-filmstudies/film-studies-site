@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { useLocale } from '../../contexts/LocaleContext'
+import matter from 'gray-matter'
 
 interface BoardPost {
   title: string
@@ -17,20 +18,52 @@ const CommunityBoard = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // 실제 구현에서는 API나 파일 시스템에서 포스트를 로드합니다
-    // 여기서는 샘플 데이터를 사용합니다
-    const samplePosts: BoardPost[] = [
-      {
-        title: '영화학과 웹사이트에 오신 것을 환영합니다',
-        date: '2025-08-02',
-        author: '영화학과 관리자',
-        body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다...',
-        slug: '20250802-welcome',
-      },
-    ]
+    const loadPosts = async () => {
+      try {
+        // 실제 MDX 파일들을 동적으로 import
+        const boardModules = (import.meta as any).glob('/content/board/*.mdx', {
+          eager: true,
+        })
 
-    setPosts(samplePosts)
-    setLoading(false)
+        const loadedPosts = Object.entries(boardModules).map(
+          ([path, module]) => {
+            const slug = path.replace('/content/board/', '').replace('.mdx', '')
+            const { data, content } = matter((module as any).default)
+
+            return {
+              title: data.title || '',
+              date: data.date || '',
+              author: data.author || '',
+              body: content,
+              slug,
+            }
+          }
+        )
+
+        // 날짜순으로 정렬 (최신순)
+        const sortedPosts = loadedPosts.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        )
+
+        setPosts(sortedPosts)
+      } catch (error) {
+        console.error('Error loading board posts:', error)
+        // 에러 시 샘플 데이터 사용
+        setPosts([
+          {
+            title: '영화학과 웹사이트에 오신 것을 환영합니다',
+            date: '2025-08-02',
+            author: '영화학과 관리자',
+            body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다...',
+            slug: '20250802-welcome',
+          },
+        ])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPosts()
   }, [])
 
   if (loading) {
@@ -49,8 +82,11 @@ const CommunityBoard = () => {
   return (
     <>
       <Helmet>
-        <title>게시판 - 중앙대학교 영화학과</title>
-        <meta name="description" content="중앙대학교 영화학과 게시판입니다." />
+        <title>공지사항 & 게시판 - 중앙대학교 영화학과</title>
+        <meta
+          name="description"
+          content="중앙대학교 영화학과 공지사항과 게시판입니다."
+        />
       </Helmet>
 
       <div className="py-20 bg-white">
@@ -62,8 +98,14 @@ const CommunityBoard = () => {
             className="max-w-4xl mx-auto"
           >
             <h1 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-8 text-center">
-              게시판
+              공지사항 & 게시판
             </h1>
+
+            <div className="mb-8 text-center">
+              <p className="text-lg text-muted">
+                학과의 주요 소식과 공지사항을 확인하세요.
+              </p>
+            </div>
 
             <div className="space-y-8">
               {posts.map((post, index) => (
@@ -87,7 +129,11 @@ const CommunityBoard = () => {
                   </header>
 
                   <div className="prose prose-lg max-w-none">
-                    <p>{post.body}</p>
+                    <div className="line-clamp-3">
+                      {post.body.length > 200
+                        ? `${post.body.substring(0, 200)}...`
+                        : post.body}
+                    </div>
                   </div>
 
                   <footer className="mt-6 pt-6 border-t border-gray-200">
@@ -105,6 +151,9 @@ const CommunityBoard = () => {
             {posts.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-muted">아직 게시된 글이 없습니다.</p>
+                <p className="text-sm text-muted mt-2">
+                  관리자가 새 글을 작성하면 여기에 표시됩니다.
+                </p>
               </div>
             )}
           </motion.div>

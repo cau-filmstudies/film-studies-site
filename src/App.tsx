@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { LocaleProvider } from './contexts/LocaleContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -24,7 +24,6 @@ import AdmissionsGuide from './pages/admissions/AdmissionsGuide'
 import AdmissionsRequirements from './pages/admissions/AdmissionsRequirements'
 
 // Community pages
-import CommunityNotice from './pages/community/CommunityNotice'
 import CommunityGallery from './pages/community/CommunityGallery'
 import CommunityFAQ from './pages/community/CommunityFAQ'
 import CommunityResources from './pages/community/CommunityResources'
@@ -69,7 +68,10 @@ function App() {
             />
 
             {/* Community routes */}
-            <Route path="/community/notice" element={<CommunityNotice />} />
+            <Route
+              path="/community/notice"
+              element={<Navigate to="/community/board" replace />}
+            />
             <Route path="/community/gallery" element={<CommunityGallery />} />
             <Route path="/community/faq" element={<CommunityFAQ />} />
             <Route
