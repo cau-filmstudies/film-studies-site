@@ -29,7 +29,7 @@
         margin-bottom: 30px;
       }
 
-      .login-section {
+      .action-section {
         text-align: center;
         margin: 40px 0;
       }
@@ -43,10 +43,19 @@
         border-radius: 6px;
         font-weight: 500;
         transition: background 0.3s;
+        margin: 10px;
       }
 
       .github-btn:hover {
         background: #1a1e22;
+      }
+
+      .primary-btn {
+        background: #0366d6;
+      }
+
+      .primary-btn:hover {
+        background: #0256b3;
       }
 
       .info {
@@ -57,49 +66,84 @@
         border-left: 4px solid #2196f3;
       }
 
-      .error {
-        background: #ffebee;
+      .warning {
+        background: #fff3e0;
         padding: 15px;
         border-radius: 6px;
         margin: 20px 0;
-        border-left: 4px solid #f44336;
-        color: #c62828;
+        border-left: 4px solid #ff9800;
+        color: #e65100;
+      }
+
+      .steps {
+        background: #f1f8e9;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+        border-left: 4px solid #4caf50;
+      }
+
+      .steps ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .steps li {
+        margin: 8px 0;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>중앙대학교 영화학과 CMS</h1>
+      <h1>중앙대학교 영화학과 콘텐츠 관리</h1>
 
       <div class="info">
-        <strong>CMS 접근 방법:</strong><br />
-        1. GitHub 계정으로 로그인하여 콘텐츠를 관리할 수 있습니다.<br />
-        2. 콘텐츠는 자동으로 GitHub 저장소에 저장됩니다.
+        <strong>콘텐츠 관리 방법:</strong><br />
+        GitHub 저장소를 통해 콘텐츠를 직접 편집할 수 있습니다.
       </div>
 
-      <div class="login-section">
-        <a
-          href="https://github.com/login/oauth/authorize?client_id=YOUR_GITHUB_CLIENT_ID&scope=repo&redirect_uri=https://cau-film.netlify.app/admin/callback"
-          class="github-btn"
-        >
-          GitHub로 로그인
-        </a>
-      </div>
-
-      <div class="error">
-        <strong>현재 상태:</strong> GitHub OAuth 설정이 필요합니다.<br />
-        관리자에게 문의하여 GitHub OAuth 앱을 설정해주세요.
-      </div>
-
-      <div class="info">
-        <strong>대안:</strong><br />
-        GitHub 저장소를 직접 편집하여 콘텐츠를 관리할 수 있습니다:<br />
+      <div class="action-section">
         <a
           href="https://github.com/cau-filmstudies/film-studies-site"
           target="_blank"
+          class="github-btn primary-btn"
         >
-          https://github.com/cau-filmstudies/film-studies-site
+          📁 GitHub 저장소 열기
         </a>
+
+        <a
+          href="https://github.com/cau-filmstudies/film-studies-site/tree/main/content"
+          target="_blank"
+          class="github-btn"
+        >
+          📝 콘텐츠 폴더 보기
+        </a>
+      </div>
+
+      <div class="steps">
+        <strong>콘텐츠 편집 단계:</strong>
+        <ol>
+          <li>GitHub 저장소에 로그인합니다</li>
+          <li>편집할 파일을 클릭합니다</li>
+          <li>연필 아이콘(✏️)을 클릭하여 편집 모드로 전환합니다</li>
+          <li>내용을 수정합니다</li>
+          <li>페이지 하단의 "Commit changes" 버튼을 클릭합니다</li>
+          <li>변경사항이 자동으로 Netlify에 배포됩니다</li>
+        </ol>
+      </div>
+
+      <div class="warning">
+        <strong>주의사항:</strong><br />
+        • 파일명과 경로는 변경하지 마세요<br />
+        • Markdown 형식을 유지해주세요<br />
+        • 이미지는 public/images 폴더에 업로드하세요
+      </div>
+
+      <div class="info">
+        <strong>주요 콘텐츠 파일:</strong><br />
+        • <code>content/board/</code> - 게시판 글<br />
+        • <code>content/pages/</code> - 정적 페이지<br />
+        • <code>public/images/</code> - 이미지 파일
       </div>
     </div>
   </body>
