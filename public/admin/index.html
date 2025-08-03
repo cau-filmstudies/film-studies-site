@@ -34,18 +34,37 @@
       #nc-root * {
         font-family: inherit;
       }
+
+      /* DOM 조작 오류 방지를 위한 추가 스타일 */
+      .cms-container {
+        position: relative;
+        min-height: 100vh;
+      }
     </style>
   </head>
   <body>
-    <div id="nc-root">
-      <div class="loading">CMS 로딩 중...</div>
+    <div class="cms-container">
+      <div id="nc-root">
+        <div class="loading">CMS 로딩 중...</div>
+      </div>
     </div>
 
-    <!-- Decap CMS - 더 안정적인 버전 -->
-    <script src="https://unpkg.com/decap-cms@3.4.0/dist/decap-cms.js"></script>
+    <!-- Decap CMS - 안정적인 버전 -->
+    <script src="https://unpkg.com/decap-cms@3.3.0/dist/decap-cms.js"></script>
 
     <!-- CMS 설정 -->
     <script>
+      // DOM 조작 오류 방지 함수
+      function safeRemoveChild(parent, child) {
+        if (parent && child && parent.contains(child)) {
+          try {
+            parent.removeChild(child)
+          } catch (error) {
+            console.warn('DOM 조작 오류 방지:', error)
+          }
+        }
+      }
+
       // Decap CMS 설정
       const config = {
         backend: {
@@ -122,6 +141,18 @@
       function initCMS() {
         if (window.CMS) {
           try {
+            // DOM 조작 오류 방지를 위한 전역 함수 설정
+            window.safeRemoveChild = safeRemoveChild
+
+            // CMS 초기화 전에 DOM 정리
+            const root = document.getElementById('nc-root')
+            if (root) {
+              const loading = root.querySelector('.loading')
+              if (loading) {
+                safeRemoveChild(root, loading)
+              }
+            }
+
             window.CMS.init({ config })
             console.log('CMS 초기화 성공')
           } catch (error) {
@@ -131,16 +162,30 @@
           }
         } else {
           console.log('CMS 로딩 대기 중...')
-          setTimeout(initCMS, 500)
+          setTimeout(initCMS, 1000)
         }
       }
 
       // 페이지 로드 후 CMS 초기화
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCMS)
+        document.addEventListener('DOMContentLoaded', function () {
+          setTimeout(initCMS, 100)
+        })
       } else {
-        initCMS()
+        setTimeout(initCMS, 100)
       }
+
+      // 전역 오류 처리
+      window.addEventListener('error', function (event) {
+        if (
+          event.error &&
+          event.error.message &&
+          event.error.message.includes('removeChild')
+        ) {
+          console.warn('DOM 조작 오류 감지, 무시합니다:', event.error)
+          event.preventDefault()
+        }
+      })
     </script>
   </body>
 </html>
