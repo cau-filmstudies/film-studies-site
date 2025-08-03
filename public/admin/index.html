@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate" />
     <title>CMS - 중앙대학교 영화학과</title>
     <style>
       /* 완전히 격리된 CMS 스타일 */
@@ -48,15 +49,25 @@
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v3/netlify-identity-widget.js"></script>
 
-    <!-- Decap CMS - 안정적인 버전 -->
-    <script src="https://unpkg.com/decap-cms@3.6.0/dist/decap-cms.js"></script>
+    <!-- Decap CMS - 최신 안정 버전 -->
+    <script src="https://unpkg.com/decap-cms@3.8.0/dist/decap-cms.js"></script>
 
     <!-- CMS 설정 -->
     <script>
+      // 중복 초기화 방지
+      let cmsInitialized = false
+
       // 안전한 CMS 초기화
       function initCMS() {
+        if (cmsInitialized) {
+          console.log('CMS가 이미 초기화되었습니다.')
+          return
+        }
+
         if (window.CMS) {
           try {
+            console.log('CMS 초기화 시작...')
+
             const config = {
               backend: {
                 name: 'git-gateway',
@@ -105,6 +116,8 @@
             }
 
             window.CMS.init({ config })
+            cmsInitialized = true
+            console.log('CMS 초기화 완료')
           } catch (error) {
             console.error('CMS 초기화 오류:', error)
             document.querySelector('.loading').textContent =
