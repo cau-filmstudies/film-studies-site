@@ -21,7 +21,7 @@
         z-index: 1;
       }
 
-      /* Decap CMS 스타일 격리 */
+      /* CMS 스타일 격리 */
       #nc-root * {
         font-family: inherit;
       }
@@ -30,26 +30,46 @@
   <body>
     <div id="nc-root"></div>
 
-    <!-- Decap CMS - 최신 버전 -->
-    <script src="https://unpkg.com/decap-cms@3.8.0/dist/decap-cms.js"></script>
+    <!-- Netlify CMS - 더 안정적인 버전 -->
+    <script src="https://unpkg.com/netlify-cms@3.7.0/dist/netlify-cms.js"></script>
 
     <!-- CMS 초기화 -->
     <script>
-      // CMS 초기화
+      // CMS 초기화 - 더 안전한 방법
       function initCMS() {
-        if (window.CMS) {
+        if (window.NetlifyCms) {
           try {
-            window.CMS.init()
+            window.NetlifyCms.init()
             console.log('CMS 초기화 성공')
           } catch (error) {
             console.error('CMS 초기화 오류:', error)
-            document.getElementById('nc-root').innerHTML =
-              '<div style="padding: 20px; text-align: center;">CMS 초기화 중 오류가 발생했습니다. 페이지를 새로고침해주세요.</div>'
+            // 오류 발생 시 Decap CMS로 폴백
+            fallbackToDecapCMS()
           }
         } else {
-          console.log('CMS 로딩 대기 중...')
+          console.log('Netlify CMS 로딩 대기 중...')
           setTimeout(initCMS, 500)
         }
+      }
+
+      // Decap CMS 폴백
+      function fallbackToDecapCMS() {
+        console.log('Decap CMS로 폴백 시도...')
+        const script = document.createElement('script')
+        script.src = 'https://unpkg.com/decap-cms@3.6.0/dist/decap-cms.js'
+        script.onload = function () {
+          if (window.CMS) {
+            try {
+              window.CMS.init()
+              console.log('Decap CMS 초기화 성공')
+            } catch (error) {
+              console.error('Decap CMS 초기화 오류:', error)
+              document.getElementById('nc-root').innerHTML =
+                '<div style="padding: 20px; text-align: center;">CMS 초기화 중 오류가 발생했습니다. GitHub 저장소를 직접 편집해주세요.</div>'
+            }
+          }
+        }
+        document.head.appendChild(script)
       }
 
       // 페이지 로드 후 CMS 초기화
