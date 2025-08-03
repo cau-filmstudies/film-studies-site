@@ -7,6 +7,11 @@ const config = {
     open_authoring: false,
     editorial_workflow: true,
   },
+  // Netlify Identity를 사용하는 대안 설정
+  // backend: {
+  //   name: 'git-gateway',
+  //   branch: 'main',
+  // },
   media_folder: 'public/images/uploads',
   public_folder: '/images/uploads',
   collections: [
