@@ -46,19 +46,71 @@ const config = {
         },
       ],
     },
+    {
+      name: 'pages',
+      label: '페이지',
+      files: [
+        {
+          name: 'about',
+          label: '소개',
+          file: 'content/about.mdx',
+          fields: [
+            {
+              label: '제목',
+              name: 'title',
+              widget: 'string',
+              required: true,
+            },
+            {
+              label: '내용',
+              name: 'body',
+              widget: 'markdown',
+              required: true,
+            },
+          ],
+        },
+        {
+          name: 'admissions',
+          label: '입학안내',
+          file: 'content/admissions.mdx',
+          fields: [
+            {
+              label: '제목',
+              name: 'title',
+              widget: 'string',
+              required: true,
+            },
+            {
+              label: '내용',
+              name: 'body',
+              widget: 'markdown',
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
 }
 
 // 안전한 CMS 초기화
 function initCMS() {
   try {
+    console.log('CMS 초기화 시작...')
     if (window.CMS) {
+      console.log('CMS 객체 발견')
       // 이미 초기화되었는지 확인
       if (window.CMS.init) {
+        console.log('CMS 초기화 중...')
         window.CMS.registerPreviewStyle('/src/index.css')
         window.CMS.init({ config })
+        console.log('CMS 초기화 완료')
+      } else {
+        console.log('CMS.init 함수를 찾을 수 없음')
+        setTimeout(initCMS, 100)
       }
     } else {
+      console.log('CMS 객체를 찾을 수 없음, 재시도 중...')
       // CMS가 아직 로드되지 않았으면 잠시 후 다시 시도
       setTimeout(initCMS, 100)
     }
