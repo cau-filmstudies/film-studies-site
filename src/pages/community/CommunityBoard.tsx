@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { useLocale } from '../../contexts/LocaleContext'
-import matter from 'gray-matter'
 
 interface BoardPost {
   title: string
@@ -22,56 +21,14 @@ const CommunityBoard = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        // GitHub Raw URL을 통해 직접 파일들을 로드
-        const boardFiles = [
-          {
-            name: '20250802-welcome.mdx',
-            url: 'https://raw.githubusercontent.com/cau-filmstudies/film-studies-site/main/content/board/20250802-welcome.mdx',
-            slug: '20250802-welcome',
-          },
-          {
-            name: '20250803-test.md',
-            url: 'https://raw.githubusercontent.com/cau-filmstudies/film-studies-site/main/content/board/20250803-test.md',
-            slug: '20250803-test',
-          },
-        ]
+        // Netlify Function을 통해 게시글을 가져옴
+        const response = await fetch('/.netlify/functions/get-board-posts')
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts')
+        }
 
-        // 각 파일의 내용을 가져와서 파싱
-        const loadedPosts = await Promise.all(
-          boardFiles.map(async file => {
-            try {
-              const response = await fetch(file.url)
-              if (!response.ok) {
-                throw new Error(`Failed to fetch ${file.name}`)
-              }
-              const content = await response.text()
-              const { data, content: bodyContent } = matter(content)
-
-              return {
-                title: data.title || '',
-                date: data.date || '',
-                author: data.author || '',
-                thumbnail: data.thumbnail || '',
-                images: data.images || [],
-                body: bodyContent,
-                slug: file.slug,
-              }
-            } catch (error) {
-              console.error(`Error loading ${file.name}:`, error)
-              return null
-            }
-          })
-        )
-
-        // null 값 제거하고 날짜순으로 정렬
-        const validPosts = loadedPosts.filter(
-          post => post !== null
-        ) as BoardPost[]
-        const sortedPosts = validPosts.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        )
-
-        setPosts(sortedPosts)
+        const posts = await response.json()
+        setPosts(posts)
       } catch (error) {
         console.error('Error loading board posts:', error)
         // API 실패 시 기본 데이터 사용
