@@ -8,6 +8,8 @@ interface BoardPost {
   title: string
   date: string
   author?: string
+  thumbnail?: string
+  images?: Array<{ image: string }>
   body: string
   slug: string
 }
@@ -39,6 +41,8 @@ const CommunityBoard = () => {
               title: data.title || '',
               date: data.date || '',
               author: data.author || '',
+              thumbnail: data.thumbnail || '',
+              images: data.images || [],
               body: content,
               slug,
             }
@@ -133,6 +137,17 @@ const CommunityBoard = () => {
                     </div>
                   </header>
 
+                  {/* 썸네일 이미지 */}
+                  {post.thumbnail && (
+                    <div className="mb-6">
+                      <img
+                        src={post.thumbnail}
+                        alt={post.title}
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                    </div>
+                  )}
+
                   <div className="prose prose-lg max-w-none">
                     <div className="line-clamp-3">
                       {post.body.length > 200
@@ -140,6 +155,25 @@ const CommunityBoard = () => {
                         : post.body}
                     </div>
                   </div>
+
+                  {/* 첨부 이미지들 */}
+                  {post.images && post.images.length > 0 && (
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <h4 className="text-sm font-medium text-muted mb-3">
+                        첨부 이미지
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {post.images.map((img, imgIndex) => (
+                          <img
+                            key={imgIndex}
+                            src={img.image}
+                            alt={`첨부 이미지 ${imgIndex + 1}`}
+                            className="w-full h-24 object-cover rounded"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <footer className="mt-6 pt-6 border-t border-gray-200">
                     <a

@@ -25,6 +25,19 @@ collections:
           default: now,
         }
       - { label: 작성자, name: author, widget: string, required: true }
+      - {
+          label: 썸네일 이미지,
+          name: thumbnail,
+          widget: image,
+          required: false,
+        }
+      - {
+          label: 첨부 이미지들,
+          name: images,
+          widget: list,
+          required: false,
+          fields: [{ label: 이미지, name: image, widget: image }],
+        }
       - { label: 내용, name: body, widget: markdown, required: true }
     sortable_fields:
       - commit_date
