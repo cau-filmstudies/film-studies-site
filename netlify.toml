@@ -4,4 +4,22 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+[context.production.environment]
+  VITE_GITHUB_CLIENT_ID = ""
+
+[context.deploy-preview.environment]
+  VITE_GITHUB_CLIENT_ID = ""
+
+# Netlify Identity 설정
+[build.processing]
+  skip_processing = false
+
+# Identity 설정
+[build.processing.html]
+  pretty_urls = true
+
+# Identity 활성화
+[build.processing.images]
+  compress = true 

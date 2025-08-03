@@ -47,7 +47,7 @@
     </div>
 
     <!-- Decap CMS - 안정적인 버전 -->
-    <script src="https://unpkg.com/decap-cms@3.7.0/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@3.6.0/dist/decap-cms.js"></script>
 
     <!-- CMS 설정 -->
     <script>
@@ -58,7 +58,8 @@
           repo: 'cau-filmstudies/film-studies-site',
           branch: 'main',
           auth_scope: 'repo',
-          client_id: process.env.VITE_GITHUB_CLIENT_ID || '',
+          // Netlify Identity 사용 (권장)
+          auth_endpoint: 'https://cau-film.netlify.app/.netlify/identity',
         },
         media_folder: 'public/images/uploads',
         public_folder: '/images/uploads',
