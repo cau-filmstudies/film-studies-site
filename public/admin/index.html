@@ -41,8 +41,8 @@
       <div class="loading">CMS 로딩 중...</div>
     </div>
 
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@3.5.0/dist/decap-cms.js"></script>
+    <!-- Decap CMS - 더 안정적인 버전 -->
+    <script src="https://unpkg.com/decap-cms@3.4.0/dist/decap-cms.js"></script>
 
     <!-- CMS 설정 -->
     <script>
@@ -53,7 +53,6 @@
           repo: 'cau-filmstudies/film-studies-site',
           branch: 'main',
           auth_scope: 'repo',
-          // GitHub OAuth 설정
           client_id: 'Ov23libaKgVihLREnBGa',
         },
         media_folder: 'public/images/uploads',
@@ -119,30 +118,29 @@
         ],
       }
 
-      // CMS 초기화
-      document.addEventListener('DOMContentLoaded', function () {
+      // CMS 초기화 - 더 안전한 방법
+      function initCMS() {
         if (window.CMS) {
           try {
             window.CMS.init({ config })
+            console.log('CMS 초기화 성공')
           } catch (error) {
             console.error('CMS 초기화 오류:', error)
             document.getElementById('nc-root').innerHTML =
-              '<div style="padding: 20px; text-align: center;">CMS 로딩 중 오류가 발생했습니다. GitHub OAuth 설정이 필요합니다.</div>'
+              '<div style="padding: 20px; text-align: center;">CMS 초기화 중 오류가 발생했습니다. 페이지를 새로고침해주세요.</div>'
           }
         } else {
-          setTimeout(function () {
-            if (window.CMS) {
-              try {
-                window.CMS.init({ config })
-              } catch (error) {
-                console.error('CMS 초기화 오류:', error)
-                document.getElementById('nc-root').innerHTML =
-                  '<div style="padding: 20px; text-align: center;">CMS 로딩 중 오류가 발생했습니다. GitHub OAuth 설정이 필요합니다.</div>'
-              }
-            }
-          }, 1000)
+          console.log('CMS 로딩 대기 중...')
+          setTimeout(initCMS, 500)
         }
-      })
+      }
+
+      // 페이지 로드 후 CMS 초기화
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCMS)
+      } else {
+        initCMS()
+      }
     </script>
   </body>
 </html>
