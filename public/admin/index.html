@@ -44,85 +44,13 @@
     <!-- Decap CMS - 최신 버전 -->
     <script src="https://unpkg.com/decap-cms@3.8.0/dist/decap-cms.js"></script>
 
-    <!-- CMS 설정 -->
+    <!-- CMS 초기화 -->
     <script>
-      // Decap CMS 설정
-      const config = {
-        backend: {
-          name: 'github',
-          repo: 'cau-filmstudies/film-studies-site',
-          branch: 'main',
-          auth_scope: 'repo',
-          client_id: 'Ov23libaKgVihLREnBGa',
-        },
-        media_folder: 'public/images/uploads',
-        public_folder: '/images/uploads',
-        collections: [
-          {
-            name: 'board',
-            label: '게시판',
-            folder: 'content/board',
-            create: true,
-            slug: '{{year}}{{month}}{{day}}-{{slug}}',
-            fields: [
-              {
-                label: '제목',
-                name: 'title',
-                widget: 'string',
-                required: true,
-              },
-              {
-                label: '작성일',
-                name: 'date',
-                widget: 'datetime',
-                format: 'YYYY-MM-DD',
-                date_format: 'YYYY-MM-DD',
-                time_format: false,
-                default: 'now',
-              },
-              {
-                label: '작성자',
-                name: 'author',
-                widget: 'string',
-                required: true,
-              },
-              {
-                label: '내용',
-                name: 'body',
-                widget: 'markdown',
-                required: true,
-              },
-            ],
-          },
-          {
-            name: 'pages',
-            label: '페이지',
-            folder: 'content/pages',
-            create: true,
-            slug: '{{slug}}',
-            fields: [
-              {
-                label: '제목',
-                name: 'title',
-                widget: 'string',
-                required: true,
-              },
-              {
-                label: '내용',
-                name: 'body',
-                widget: 'markdown',
-                required: true,
-              },
-            ],
-          },
-        ],
-      }
-
       // CMS 초기화
       function initCMS() {
         if (window.CMS) {
           try {
-            window.CMS.init({ config })
+            window.CMS.init()
             console.log('CMS 초기화 성공')
           } catch (error) {
             console.error('CMS 초기화 오류:', error)
