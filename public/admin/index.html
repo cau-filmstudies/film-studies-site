@@ -21,15 +21,6 @@
         z-index: 1;
       }
 
-      .loading {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        font-size: 18px;
-        color: #666;
-      }
-
       /* Decap CMS 스타일 격리 */
       #nc-root * {
         font-family: inherit;
@@ -37,9 +28,7 @@
     </style>
   </head>
   <body>
-    <div id="nc-root">
-      <div class="loading">CMS 로딩 중...</div>
-    </div>
+    <div id="nc-root"></div>
 
     <!-- Decap CMS - 최신 버전 -->
     <script src="https://unpkg.com/decap-cms@3.8.0/dist/decap-cms.js"></script>
