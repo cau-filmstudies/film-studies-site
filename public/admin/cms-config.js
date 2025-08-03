@@ -1,7 +1,7 @@
 const config = {
   backend: {
     name: 'github',
-    repo: 'cau-film/film-studies-site',
+    repo: 'cau-filmstudies/film-studies-site',
     branch: 'main',
     auth_scope: 'repo',
     open_authoring: false,
