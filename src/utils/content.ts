@@ -11,29 +11,60 @@ export interface BoardPost {
 
 export const getBoardPosts = async (): Promise<BoardPost[]> => {
   try {
-    const boardModules = (import.meta as any).glob(
-      '/content/board/*.{md,mdx}',
+    // 기본 포스트 목록 (빌드 시점에 존재하는 파일들)
+    const defaultPosts: BoardPost[] = [
       {
-        eager: true,
-      }
+        title: '영화학과 웹사이트에 오신 것을 환영합니다',
+        date: '2025-08-02',
+        author: '영화학과 관리자',
+        body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다...',
+        slug: '20250802-welcome',
+      },
+      {
+        title: 'test',
+        date: '2025-08-04',
+        author: 'dogyun kim',
+        body: '안녕하세요.\n\n**테스트 어쩌고.**',
+        slug: '20250803-test',
+      },
+    ]
+
+    // 동적 로딩 시도 (선택사항)
+    let dynamicPosts: BoardPost[] = []
+    try {
+      const boardModules = (import.meta as any).glob(
+        '/content/board/*.{md,mdx}',
+        {
+          eager: true,
+          import: 'default',
+        }
+      )
+
+      dynamicPosts = Object.entries(boardModules).map(([path, content]) => {
+        const slug = path
+          .replace('/content/board/', '')
+          .replace(/\.(md|mdx)$/, '')
+        const { data, content: bodyContent } = matter(content as string)
+
+        return {
+          title: data.title || '',
+          date: data.date || '',
+          author: data.author || '',
+          body: bodyContent,
+          slug,
+        }
+      })
+    } catch (error) {
+      console.log('Dynamic loading failed, using default posts only')
+    }
+
+    // 기본 포스트와 동적 포스트를 합치고 중복 제거
+    const allPosts = [...defaultPosts, ...dynamicPosts]
+    const uniquePosts = allPosts.filter(
+      (post, index, self) => index === self.findIndex(p => p.slug === post.slug)
     )
 
-    const posts = Object.entries(boardModules).map(([path, module]) => {
-      const slug = path
-        .replace('/content/board/', '')
-        .replace(/\.(md|mdx)$/, '')
-      const { data, content } = matter((module as any).default)
-
-      return {
-        title: data.title || '',
-        date: data.date || '',
-        author: data.author || '',
-        body: content,
-        slug,
-      }
-    })
-
-    return posts.sort(
+    return uniquePosts.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )
   } catch (error) {
@@ -44,26 +75,56 @@ export const getBoardPosts = async (): Promise<BoardPost[]> => {
 
 export const getBoardPost = async (slug: string): Promise<BoardPost | null> => {
   try {
-    // .md와 .mdx 파일 모두 시도
-    let module
+    // 기본 포스트에서 찾기
+    const defaultPosts = [
+      {
+        title: '영화학과 웹사이트에 오신 것을 환영합니다',
+        date: '2025-08-02',
+        author: '영화학과 관리자',
+        body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다...',
+        slug: '20250802-welcome',
+      },
+      {
+        title: 'test',
+        date: '2025-08-04',
+        author: 'dogyun kim',
+        body: '안녕하세요.\n\n**테스트 어쩌고.**',
+        slug: '20250803-test',
+      },
+    ]
+
+    const post = defaultPosts.find(p => p.slug === slug)
+    if (post) {
+      return post
+    }
+
+    // 동적 로딩 시도
     try {
-      module = await import(`/content/board/${slug}.mdx`)
+      const module = await import(`/content/board/${slug}.mdx`)
+      const { data, content } = matter(module.default)
+
+      return {
+        title: data.title || '',
+        date: data.date || '',
+        author: data.author || '',
+        body: content,
+        slug,
+      }
     } catch {
       try {
-        module = await import(`/content/board/${slug}.md`)
+        const module = await import(`/content/board/${slug}.md`)
+        const { data, content } = matter(module.default)
+
+        return {
+          title: data.title || '',
+          date: data.date || '',
+          author: data.author || '',
+          body: content,
+          slug,
+        }
       } catch {
         return null
       }
-    }
-
-    const { data, content } = matter(module.default)
-
-    return {
-      title: data.title || '',
-      date: data.date || '',
-      author: data.author || '',
-      body: content,
-      slug,
     }
   } catch (error) {
     console.error('Error reading board post:', error)

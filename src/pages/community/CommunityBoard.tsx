@@ -22,20 +22,34 @@ const CommunityBoard = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        // 동적으로 모든 board 파일들을 로드
-        const boardModules = (import.meta as any).glob(
-          '/content/board/*.{md,mdx}',
+        // 기본 파일들 (빌드 시점에 존재하는 파일들)
+        const defaultPosts: BoardPost[] = [
           {
-            eager: true,
-            import: 'default',
+            title: '영화학과 웹사이트에 오신 것을 환영합니다',
+            date: '2025-08-02',
+            author: '영화학과 관리자',
+            body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다.\n\n## 우리 학과 소개\n\n중앙대학교 영화학과는 1960년대부터 한국 영화계를 이끌어온 명문 학과입니다. 최첨단 시설과 우수한 교수진을 통해 학생들이 영화 제작의 모든 과정을 경험할 수 있도록 지원하고 있습니다.',
+            slug: '20250802-welcome',
+          },
+          {
+            title: 'test',
+            date: '2025-08-04',
+            author: 'dogyun kim',
+            body: '안녕하세요.\n\n**테스트 어쩌고.**',
+            slug: '20250803-test',
           }
-        )
+        ]
 
-        const loadedPosts = Object.entries(boardModules).map(
-          ([path, content]) => {
-            const slug = path
-              .replace('/content/board/', '')
-              .replace(/\.(md|mdx)$/, '')
+        // 동적으로 추가된 파일들을 로드 시도
+        let dynamicPosts: BoardPost[] = []
+        try {
+          const boardModules = (import.meta as any).glob('/content/board/*.{md,mdx}', { 
+            eager: true,
+            import: 'default'
+          })
+
+          dynamicPosts = Object.entries(boardModules).map(([path, content]) => {
+            const slug = path.replace('/content/board/', '').replace(/\.(md|mdx)$/, '')
             const { data, content: bodyContent } = matter(content as string)
 
             return {
@@ -47,18 +61,26 @@ const CommunityBoard = () => {
               body: bodyContent,
               slug,
             }
-          }
+          })
+        } catch (error) {
+          console.log('Dynamic loading failed, using default posts only')
+        }
+
+        // 기본 포스트와 동적 포스트를 합치고 중복 제거
+        const allPosts = [...defaultPosts, ...dynamicPosts]
+        const uniquePosts = allPosts.filter((post, index, self) => 
+          index === self.findIndex(p => p.slug === post.slug)
         )
 
         // 날짜순으로 정렬 (최신순)
-        const sortedPosts = loadedPosts.sort(
+        const sortedPosts = uniquePosts.sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         )
 
         setPosts(sortedPosts)
       } catch (error) {
         console.error('Error loading board posts:', error)
-        // 에러 시 샘플 데이터 사용
+        // 에러 시 기본 데이터 사용
         setPosts([
           {
             title: '영화학과 웹사이트에 오신 것을 환영합니다',
@@ -160,9 +182,7 @@ const CommunityBoard = () => {
                   {/* 첨부 이미지들 */}
                   {post.images && post.images.length > 0 && (
                     <div className="mt-6 pt-6 border-t border-gray-200">
-                      <h4 className="text-sm font-medium text-muted mb-3">
-                        첨부 이미지
-                      </h4>
+                      <h4 className="text-sm font-medium text-muted mb-3">첨부 이미지</h4>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         {post.images.map((img, imgIndex) => (
                           <img
