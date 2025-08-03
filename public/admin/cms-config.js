@@ -1,11 +1,7 @@
 const config = {
   backend: {
-    name: 'github',
-    repo: 'cau-filmstudies/film-studies-site',
+    name: 'git-gateway',
     branch: 'main',
-    auth_scope: 'repo',
-    open_authoring: false,
-    editorial_workflow: false,
   },
   media_folder: 'public/images/uploads',
   public_folder: '/images/uploads',
