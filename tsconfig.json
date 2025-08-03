@@ -21,8 +21,8 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Framer Motion compatibility */
-    "suppressImplicitAnyIndexErrors": true,
     "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
 
     /* Path mapping */
     "baseUrl": ".",
