@@ -37,10 +37,10 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <Link to="/curriculum" className="btn-primary text-lg px-8 py-4">
+            <Link to="/education/curriculum" className="btn-primary text-lg px-8 py-4">
               {t('hero.cta.primary')}
             </Link>
-            <Link to="/admissions" className="btn-secondary text-lg px-8 py-4">
+            <Link to="/admissions/guide" className="btn-secondary text-lg px-8 py-4">
               {t('hero.cta.secondary')}
             </Link>
           </motion.div>

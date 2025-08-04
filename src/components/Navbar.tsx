@@ -9,7 +9,16 @@ const Navbar = () => {
   const location = useLocation()
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
 
-  const navItems = [
+  const navItems: Array<{
+    key: string
+    label: string
+    path: string
+    submenu?: Array<{
+      key: string
+      label: string
+      path: string
+    }>
+  }> = [
     {
       key: 'about',
       label: t('nav.about'),
@@ -69,22 +78,11 @@ const Navbar = () => {
         },
       ],
     },
+
     {
       key: 'admissions',
       label: t('nav.admissions'),
       path: '/admissions/guide',
-      submenu: [
-        {
-          key: 'guide',
-          label: t('nav.admissions.guide'),
-          path: '/admissions/guide',
-        },
-        {
-          key: 'requirements',
-          label: t('nav.admissions.requirements'),
-          path: '/admissions/requirements',
-        },
-      ],
     },
     {
       key: 'community',
@@ -96,11 +94,7 @@ const Navbar = () => {
           label: t('nav.community.board'),
           path: '/community/board',
         },
-        {
-          key: 'gallery',
-          label: t('nav.community.gallery'),
-          path: '/community/gallery',
-        },
+
         { key: 'faq', label: t('nav.community.faq'), path: '/community/faq' },
         {
           key: 'resources',
@@ -134,6 +128,9 @@ const Navbar = () => {
               alt="CAU Emblem" 
               className="w-12 h-12 object-contain hover:opacity-80 transition-opacity duration-200"
             />
+            <span className="ml-3 text-base font-semibold whitespace-nowrap">
+              중앙대학교 공연영상창작학부 영화전공
+            </span>
           </Link>
 
           <div className="hidden lg:flex items-center space-x-8">
@@ -156,7 +153,7 @@ const Navbar = () => {
                 </Link>
 
                 <AnimatePresence>
-                  {activeDropdown === item.key && (
+                  {activeDropdown === item.key && item.submenu && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}

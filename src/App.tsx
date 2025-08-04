@@ -25,10 +25,8 @@ import EducationSchedule from './pages/education/EducationSchedule'
 
 // Admissions pages
 import AdmissionsGuide from './pages/admissions/AdmissionsGuide'
-import AdmissionsRequirements from './pages/admissions/AdmissionsRequirements'
 
 // Community pages
-import CommunityGallery from './pages/community/CommunityGallery'
 import CommunityFAQ from './pages/community/CommunityFAQ'
 import CommunityResources from './pages/community/CommunityResources'
 import CommunityBoard from './pages/community/CommunityBoard'
@@ -71,17 +69,12 @@ function App() {
 
             {/* Admissions routes */}
             <Route path="/admissions/guide" element={<AdmissionsGuide />} />
-            <Route
-              path="/admissions/requirements"
-              element={<AdmissionsRequirements />}
-            />
 
             {/* Community routes */}
             <Route
               path="/community/notice"
               element={<Navigate to="/community/board" replace />}
             />
-            <Route path="/community/gallery" element={<CommunityGallery />} />
             <Route path="/community/faq" element={<CommunityFAQ />} />
             <Route
               path="/community/resources"

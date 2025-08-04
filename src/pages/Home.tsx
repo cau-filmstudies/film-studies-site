@@ -1,45 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
 import { useLocale } from '../contexts/LocaleContext'
-import {
-  loadAbout,
-  loadCurriculum,
-  loadFaculty,
-  loadProjects,
-} from '../utils/content'
-import type { Curriculum, Faculty, Project } from '../types'
+
 
 const Home = () => {
   const { t } = useLocale()
-  const [about, setAbout] = useState<string>('')
-  const [curriculum, setCurriculum] = useState<Curriculum[]>([])
-  const [faculty, setFaculty] = useState<Faculty[]>([])
-  const [projects, setProjects] = useState<Project[]>([])
-
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        const [aboutContent, curriculumData, facultyData, projectsData] =
-          await Promise.all([
-            loadAbout(),
-            loadCurriculum(),
-            loadFaculty(),
-            loadProjects(),
-          ])
-
-        setAbout(aboutContent)
-        setCurriculum(curriculumData.slice(0, 3)) // Show first 3
-        setFaculty(facultyData.slice(0, 6)) // Show first 6
-        setProjects(projectsData.slice(0, 4)) // Show first 4
-      } catch (error) {
-        console.error('Error loading content:', error)
-      }
-    }
-
-    loadContent()
-  }, [])
 
   return (
     <>
@@ -53,198 +21,201 @@ const Home = () => {
 
       <Hero />
 
-      {/* About Section */}
+      {/* Faculty & Community Cards */}
       <section className="py-20 bg-white">
         <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-8">
-              {t('section.about')}
-            </h2>
-            <div className="prose prose-lg mx-auto text-muted">
-              {about ? (
-                <div dangerouslySetInnerHTML={{ __html: about }} />
-              ) : (
-                                 <p className="text-lg leading-relaxed break-keep">
-                   중앙대학교 공연영상창작학부 영화전공은 창의적이고 혁신적인 영화 교육을 통해
-                   미래의 영화인들을 양성합니다. 실무 중심의 교육과정과 최첨단
-                   시설을 통해 학생들이 영화 제작의 모든 과정을 경험할 수 있도록
-                   지원합니다.
-                 </p>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Curriculum Overview */}
-      <section className="py-20 bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-4">
-              {t('section.curriculum')}
-            </h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto">
-              체계적이고 실무 중심의 커리큘럼으로 영화 제작의 모든 과정을
-              학습합니다.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {curriculum.map((item, index) => (
-              <motion.div
-                key={item.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
-              >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Faculty Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border-2 border-blue-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
+            >
+              <div className="text-center">
+                <div className="text-5xl mb-4">👥</div>
                 <h3 className="font-serif text-2xl font-bold text-primary mb-4">
-                  {item.title}
+                  구성원 보러가기
                 </h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-primary mb-2">
-                      핵심 과목
-                    </h4>
-                    <ul className="text-muted space-y-1">
-                      {item.core.map(course => (
-                        <li key={course}>{course}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-primary mb-2">
-                      선택 과목
-                    </h4>
-                    <ul className="text-muted space-y-1">
-                      {item.electives.map(course => (
-                        <li key={course}>{course}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <p className="text-muted mb-6 leading-relaxed">
+                  중앙대학교 공연영상창작학부 영화전공의 교수진과 구성원들을 소개합니다. 
+                  영화계의 전문가들이 직접 전하는 실무 중심의 교육을 경험해보세요.
+                </p>
+                <Link 
+                  to="/about/faculty" 
+                  className="inline-flex items-center btn-primary"
+                >
+                  구성원 보러가기 +
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
 
-      {/* Faculty Preview */}
-      <section className="py-20 bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-4">
-              {t('section.faculty')}
-            </h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto">
-              영화계의 전문가들이 직접 전하는 실무 중심의 교육
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {faculty.map((member, index) => (
-              <motion.div
-                key={member.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
-              >
-                <div className="w-24 h-24 bg-accent rounded-full mx-auto mb-4"></div>
-                <h3 className="font-serif text-xl font-bold text-primary text-center mb-2">
-                  {member.title}
+            {/* Community Board Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border-2 border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
+            >
+              <div className="text-center">
+                <div className="text-5xl mb-4">📢</div>
+                <h3 className="font-serif text-2xl font-bold text-primary mb-4">
+                  공지사항
                 </h3>
-                <p className="text-muted text-center mb-4">{member.role}</p>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {member.focus.map(focus => (
-                    <span
-                      key={focus}
-                      className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full"
-                    >
-                      {focus}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Preview */}
-      <section className="py-20 bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-4">
-              {t('section.projects')}
-            </h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto">
-              학생들의 창의적인 영화 작품들을 확인해보세요
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="aspect-video bg-gray-200"></div>
-                <div className="p-6">
-                  <h3 className="font-serif text-xl font-bold text-primary mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted mb-4">
-                    {project.type} • {project.year}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map(tag => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <div className="space-y-4 mb-6">
+                  <div className="bg-white/50 rounded-lg p-4 text-left">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-accent font-semibold">[공지]</span>
+                      <span className="text-xs text-muted">2024.12.19</span>
+                    </div>
+                    <p className="text-sm text-primary font-medium">2025학년도 1학기 수강신청 안내</p>
+                  </div>
+                  <div className="bg-white/50 rounded-lg p-4 text-left">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-accent font-semibold">[안내]</span>
+                      <span className="text-xs text-muted">2024.12.18</span>
+                    </div>
+                    <p className="text-sm text-primary font-medium">겨울방학 중 시설 이용 안내</p>
+                  </div>
+                  <div className="bg-white/50 rounded-lg p-4 text-left">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-accent font-semibold">[행사]</span>
+                      <span className="text-xs text-muted">2024.12.17</span>
+                    </div>
+                    <p className="text-sm text-primary font-medium">졸업작품전 개최 안내</p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
-  )
-}
+                <Link 
+                  to="/community/board" 
+                  className="inline-flex items-center btn-secondary"
+                >
+                  더보기
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
+                     </div>
+         </div>
+       </section>
+
+       {/* Quick Links */}
+       <section className="py-20 bg-gray-50">
+         <div className="container-custom">
+           <motion.div
+             initial={{ opacity: 0, y: 30 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.6 }}
+             viewport={{ once: true }}
+             className="text-center mb-16"
+           >
+             <h2 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-4">
+               Quick Links
+             </h2>
+             <p className="text-lg text-muted max-w-2xl mx-auto">
+               필요한 정보를 빠르게 찾아보세요
+             </p>
+           </motion.div>
+
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+             {/* 입학정보 바로가기 */}
+             <motion.div
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.6, delay: 0.1 }}
+               viewport={{ once: true }}
+               className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-accent/20"
+             >
+               <div className="text-center">
+                 <div className="text-5xl mb-4">🎓</div>
+                 <h3 className="font-serif text-xl font-bold text-primary mb-4">
+                   입학정보 바로가기
+                 </h3>
+                 <p className="text-muted mb-6 leading-relaxed">
+                   입학 안내, 지원 자격, 서류 제출 등 입학과 관련된 모든 정보를 확인하세요.
+                 </p>
+                 <Link 
+                   to="/admissions/guide" 
+                   className="inline-flex items-center btn-primary w-full justify-center"
+                 >
+                   입학정보 보기
+                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                   </svg>
+                 </Link>
+               </div>
+             </motion.div>
+
+             {/* 중앙대학교 바로가기 */}
+             <motion.div
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.6, delay: 0.2 }}
+               viewport={{ once: true }}
+               className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-primary/20"
+             >
+               <div className="text-center">
+                 <div className="text-5xl mb-4">🏛️</div>
+                 <h3 className="font-serif text-xl font-bold text-primary mb-4">
+                   중앙대학교 바로가기
+                 </h3>
+                 <p className="text-muted mb-6 leading-relaxed">
+                   중앙대학교 공식 웹사이트에서 학교 소개, 학사 정보, 캠퍼스 안내를 확인하세요.
+                 </p>
+                 <a 
+                   href="https://www.cau.ac.kr" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="inline-flex items-center btn-secondary w-full justify-center"
+                 >
+                   중앙대학교 홈페이지
+                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                   </svg>
+                 </a>
+               </div>
+             </motion.div>
+
+             {/* 포탈 바로가기 */}
+             <motion.div
+               initial={{ opacity: 0, y: 30 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.6, delay: 0.3 }}
+               viewport={{ once: true }}
+               className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-green-200"
+             >
+               <div className="text-center">
+                 <div className="text-5xl mb-4">🔗</div>
+                 <h3 className="font-serif text-xl font-bold text-primary mb-4">
+                   포탈 바로가기
+                 </h3>
+                 <p className="text-muted mb-6 leading-relaxed">
+                   학생 포털에서 수강신청, 성적조회, 학사일정 등 학생 서비스를 이용하세요.
+                 </p>
+                 <a 
+                   href="https://portal.cau.ac.kr" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-2xl font-medium hover:bg-green-700 transition-colors duration-200 w-full justify-center"
+                 >
+                   포탈 바로가기
+                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                   </svg>
+                 </a>
+               </div>
+             </motion.div>
+           </div>
+         </div>
+       </section>
+     </>
+   )
+ }
 
 export default Home

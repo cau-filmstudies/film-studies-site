@@ -2,6 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { useLocale } from '../../contexts/LocaleContext'
+import GoogleMap from '../../components/GoogleMap'
 
 const AboutCampus = () => {
   const { t } = useLocale()
@@ -80,18 +81,26 @@ const AboutCampus = () => {
               <h2 className="font-serif text-2xl font-bold text-primary mb-4">
                 위치 안내
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
                   <h3 className="font-semibold text-primary mb-2">주소</h3>
-                  <p className="text-muted">
-                    서울특별시 동작구 흑석로 84 중앙대학교 영화관
+                  <p className="text-muted mb-2">
+                    서울캠퍼스(흑석동) 301관(중앙문화예술관) 507호<br />
+                    공연영상창작학부 사무실
                   </p>
-                </div>
-                <div>
+                  <h3 className="font-semibold text-primary mb-2">연락처</h3>
+                  <p className="text-muted mb-4">02-820-5799</p>
                   <h3 className="font-semibold text-primary mb-2">교통편</h3>
                   <p className="text-muted">
                     지하철 2호선 흑석역 1번 출구에서 도보 10분
                   </p>
+                </div>
+                <div className="w-full h-80 rounded-lg overflow-hidden shadow-lg">
+                  <GoogleMap 
+                    apiKey="AIzaSyCf9Sl6x1LBMN0WjUMG0hELjOkuPNxlvRY"
+                    center={{ lat: 37.5068, lng: 126.9614 }}
+                    zoom={15}
+                  />
                 </div>
               </div>
             </div>
