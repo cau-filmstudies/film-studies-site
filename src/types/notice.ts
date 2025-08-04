@@ -7,6 +7,7 @@ export interface Notice {
   pinned: boolean
   body: string
   slug: string
+  images?: Array<{ image: string }>
 }
 
 export interface NoticeFilters {

@@ -32,7 +32,8 @@ const NoticeDetail = () => {
             pinned: false,
             body: foundNotice.body || '',
             slug: foundNotice.slug || '',
-            views: 0
+            views: 0,
+            images: foundNotice.images || []
           })
         }
       } catch (error) {
@@ -182,21 +183,68 @@ const NoticeDetail = () => {
                     blockquote: ({ children }) => <blockquote className="border-l-4 border-primary pl-4 italic text-gray-600 mb-4">{children}</blockquote>,
                     code: ({ children }) => <code className="bg-gray-100 px-2 py-1 rounded text-sm">{children}</code>,
                     pre: ({ children }) => <pre className="bg-gray-100 p-4 rounded mb-4 overflow-x-auto">{children}</pre>,
-                    img: ({ src, alt }) => (
-                      <img 
-                        src={src} 
-                        alt={alt || ''} 
-                        className="max-w-full h-auto rounded-lg shadow-md my-4"
-                        onError={(e) => {
-                          console.error('Image failed to load:', src);
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    ),
+                    img: ({ src, alt }) => {
+                      // src가 undefined인 경우 처리
+                      if (!src) {
+                        return null;
+                      }
+                      
+                      // 이미지 파일명에서 위치 정보 추출 (예: image-left.png, image-center.png)
+                      const isLeft = src.includes('-left');
+                      const isRight = src.includes('-right');
+                      const isCenter = src.includes('-center') || !isLeft && !isRight;
+                      
+                      const positionClass = isLeft ? 'float-left mr-4 mb-4' : 
+                                          isRight ? 'float-right ml-4 mb-4' : 
+                                          'mx-auto block';
+                      
+                      const maxWidth = isLeft || isRight ? 'max-w-xs' : 'max-w-full';
+                      
+                      return (
+                        <img 
+                          src={src} 
+                          alt={alt || ''} 
+                          className={`${maxWidth} h-auto rounded-lg shadow-md my-6 ${positionClass}`}
+                          style={{
+                            maxWidth: isLeft || isRight ? '300px' : '100%',
+                            height: 'auto',
+                            display: isLeft || isRight ? 'block' : 'block',
+                            margin: isLeft || isRight ? '0 1rem 1rem 0' : '2rem auto',
+                            clear: isLeft || isRight ? 'both' : 'none',
+                          }}
+                          onError={(e) => {
+                            console.error('Image failed to load:', src);
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      );
+                    },
                   }}
                 >
                   {notice.body}
                 </ReactMarkdown>
+                
+                {/* Additional Images from frontmatter */}
+                {notice.images && notice.images.length > 0 && (
+                  <div className="mt-8">
+                    <h3 className="text-xl font-bold text-primary mb-4">첨부 이미지</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {notice.images.map((img, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={img.image}
+                            alt={`첨부 이미지 ${index + 1}`}
+                            className="w-full h-48 object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                            onError={(e) => {
+                              console.error('Image failed to load:', img.image);
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
