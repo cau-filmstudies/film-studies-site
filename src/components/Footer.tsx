@@ -27,7 +27,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="font-serif font-semibold text-lg mb-4">
-              {t('nav.about')}
+              {t('nav.about')}``
             </h3>
             <ul className="space-y-2">
               <li>

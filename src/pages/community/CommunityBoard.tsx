@@ -65,10 +65,10 @@ const CommunityBoard = () => {
   return (
     <>
       <Helmet>
-        <title>공지사항 & 게시판 - 중앙대학교 영화학과</title>
+        <title>공지사항 - 중앙대학교 영화학과</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 공지사항과 게시판입니다."
+          content="중앙대학교 영화학과 공지사항입니다."
         />
       </Helmet>
 
@@ -81,7 +81,7 @@ const CommunityBoard = () => {
             className="max-w-4xl mx-auto"
           >
             <h1 className="font-serif text-4xl md:text-5xl font-bold text-primary mb-8 text-center">
-              공지사항 & 게시판
+              공지사항
             </h1>
 
             <div className="mb-8 text-center">

@@ -19,7 +19,7 @@ const translations = {
     'nav.admissions.guide': '입학안내',
     'nav.admissions.requirements': '모집요강',
     'nav.community': '커뮤니티',
-    'nav.community.board': '공지사항 & 게시판',
+    'nav.community.board': '공지사항',
     'nav.community.gallery': '사진첩',
     'nav.community.faq': '자주묻는질문',
     'nav.community.resources': '자료실',
