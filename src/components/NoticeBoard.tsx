@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { Notice, NoticeFilters } from '../types/notice'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
@@ -183,12 +183,12 @@ const NoticeBoard = () => {
                         )}
                       </td>
                       <td className="px-4 py-4">
-                        <a
-                          href={`/notices/${notice.slug}`}
+                        <Link
+                          to={`/notices/${notice.slug}`}
                           className="text-primary hover:text-primary-dark font-medium transition-colors duration-200"
                         >
                           {notice.title}
-                        </a>
+                        </Link>
                       </td>
                       <td className="px-4 py-4 text-sm text-muted">
                         {notice.author}

@@ -29,6 +29,7 @@ import AdmissionsGuide from './pages/admissions/AdmissionsGuide'
 // Community pages
 import CommunityFAQ from './pages/community/CommunityFAQ'
 import CommunityBoard from './pages/community/CommunityBoard'
+import NoticeDetail from './pages/NoticeDetail'
 
 // CMS pages
 import AdminPage from './cms/admin'
@@ -76,6 +77,7 @@ function App() {
             />
             <Route path="/community/faq" element={<CommunityFAQ />} />
             <Route path="/community/board" element={<CommunityBoard />} />
+            <Route path="/notices/:slug" element={<NoticeDetail />} />
 
             {/* CMS routes */}
             <Route path="/admin" element={<AdminPage />} />
