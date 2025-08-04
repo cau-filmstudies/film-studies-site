@@ -37,7 +37,7 @@ const CommunityBoard = () => {
             title: '영화학과 웹사이트에 오신 것을 환영합니다',
             date: '2025-08-02',
             author: '영화학과 관리자',
-            body: '안녕하세요! 중앙대학교 영화학과 웹사이트에 오신 것을 환영합니다...',
+            body: '안녕하세요! 중앙대학교 공연영상창작학부 영화전공 웹사이트에 오신 것을 환영합니다...',
             slug: '20250802-welcome',
           },
         ])
@@ -65,10 +65,10 @@ const CommunityBoard = () => {
   return (
     <>
       <Helmet>
-        <title>공지사항 - 중앙대학교 영화학과</title>
+        <title>공지사항 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 공지사항입니다."
+          content="중앙대학교 공연영상창작학부 영화전공 공지사항입니다."
         />
       </Helmet>
 

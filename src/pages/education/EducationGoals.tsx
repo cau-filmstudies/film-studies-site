@@ -8,10 +8,10 @@ const EducationGoals = () => {
   return (
     <>
       <Helmet>
-        <title>교육목표 및 인재상 - 중앙대학교 영화학과</title>
+        <title>교육목표 및 인재상 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과의 교육목표 및 인재상을 소개합니다."
+          content="중앙대학교 공연영상창작학부 영화전공의 교육목표 및 인재상을 소개합니다."
         />
       </Helmet>
       <div className="py-20 bg-white">

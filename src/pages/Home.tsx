@@ -44,10 +44,10 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>중앙대학교 영화학과 - Department of Film Studies</title>
+        <title>중앙대학교 공연영상창작학부 영화전공 - School of Performing Arts and Media</title>
         <meta
           name="description"
-          content="미래의 영화인들이 시작하는 곳, 중앙대학교 영화학과입니다."
+          content="미래의 영화인들이 시작하는 곳, 중앙대학교 공연영상창작학부 영화전공입니다."
         />
       </Helmet>
 
@@ -70,12 +70,12 @@ const Home = () => {
               {about ? (
                 <div dangerouslySetInnerHTML={{ __html: about }} />
               ) : (
-                <p className="text-lg leading-relaxed">
-                  중앙대학교 영화학과는 창의적이고 혁신적인 영화 교육을 통해
-                  미래의 영화인들을 양성합니다. 실무 중심의 교육과정과 최첨단
-                  시설을 통해 학생들이 영화 제작의 모든 과정을 경험할 수 있도록
-                  지원합니다.
-                </p>
+                                 <p className="text-lg leading-relaxed break-keep">
+                   중앙대학교 공연영상창작학부 영화전공은 창의적이고 혁신적인 영화 교육을 통해
+                   미래의 영화인들을 양성합니다. 실무 중심의 교육과정과 최첨단
+                   시설을 통해 학생들이 영화 제작의 모든 과정을 경험할 수 있도록
+                   지원합니다.
+                 </p>
               )}
             </div>
           </motion.div>

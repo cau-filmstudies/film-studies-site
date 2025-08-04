@@ -26,7 +26,7 @@ const ProjectDetail = () => {
   return (
     <>
       <Helmet>
-        <title>{project.title} - 중앙대학교 영화학과</title>
+        <title>{project.title} - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta name="description" content={`${project.title} 프로젝트를 확인해보세요.`} />
       </Helmet>
 

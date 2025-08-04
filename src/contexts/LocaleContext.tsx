@@ -23,7 +23,7 @@ const translations = {
     'nav.community.gallery': '사진첩',
     'nav.community.faq': '자주묻는질문',
     'nav.community.resources': '자료실',
-    'hero.title': '중앙대학교 영화학과',
+    'hero.title': '중앙대학교 공연영상창작학부 영화전공',
     'hero.subtitle': 'Department of Film Studies',
     'hero.tagline': '미래의 영화인들이 시작하는 곳',
     'hero.cta.primary': '커리큘럼 탐색',

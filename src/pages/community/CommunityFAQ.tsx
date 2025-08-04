@@ -8,10 +8,10 @@ const CommunityFAQ = () => {
   return (
     <>
       <Helmet>
-        <title>자주묻는질문 - 중앙대학교 영화학과</title>
+        <title>자주묻는질문 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 자주묻는질문입니다."
+          content="중앙대학교 공연영상창작학부 영화전공 자주묻는질문입니다."
         />
       </Helmet>
       <div className="py-20 bg-white">

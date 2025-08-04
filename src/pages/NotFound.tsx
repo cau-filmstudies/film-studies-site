@@ -10,7 +10,7 @@ const NotFound = () => {
   return (
     <>
       <Helmet>
-        <title>페이지를 찾을 수 없습니다 - 중앙대학교 영화학과</title>
+        <title>페이지를 찾을 수 없습니다 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
           content="요청하신 페이지를 찾을 수 없습니다."

@@ -37,10 +37,10 @@ const AboutInternational = () => {
   return (
     <>
       <Helmet>
-        <title>국제교류 - 중앙대학교 영화학과</title>
+        <title>국제교류 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과의 국제교류 현황을 확인해보세요."
+          content="중앙대학교 공연영상창작학부 영화전공의 국제교류 현황을 확인해보세요."
         />
       </Helmet>
 
@@ -59,7 +59,7 @@ const AboutInternational = () => {
             <div className="prose prose-lg mx-auto mb-12">
               <h2>글로벌 영화 교육 네트워크</h2>
               <p>
-                중앙대학교 영화학과는 세계 각국의 유명 영화학교와 활발한 교류를
+                중앙대학교 공연영상창작학부 영화전공은 세계 각국의 유명 영화학교와 활발한 교류를
                 통해 글로벌 영화 교육 네트워크를 구축하고 있습니다. 학생들은
                 다양한 문화와 영화 제작 방식을 경험하며 세계적인 시각을 기를 수
                 있습니다.

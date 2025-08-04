@@ -8,8 +8,8 @@ const CommunityResources = () => {
   return (
     <>
       <Helmet>
-        <title>자료실 - 중앙대학교 영화학과</title>
-        <meta name="description" content="중앙대학교 영화학과 자료실입니다." />
+        <title>자료실 - 중앙대학교 공연영상창작학부 영화전공</title>
+        <meta name="description" content="중앙대학교 공연영상창작학부 영화전공 자료실입니다." />
       </Helmet>
       <div className="py-20 bg-white">
         <div className="container-custom">

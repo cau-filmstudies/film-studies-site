@@ -25,8 +25,8 @@ const ProjectsList = () => {
   return (
     <>
       <Helmet>
-        <title>학생 프로젝트 - 중앙대학교 영화학과</title>
-        <meta name="description" content="중앙대학교 영화학과 학생들의 창의적인 영화 작품들을 확인해보세요." />
+        <title>학생 프로젝트 - 중앙대학교 공연영상창작학부 영화전공</title>
+        <meta name="description" content="중앙대학교 공연영상창작학부 영화전공 학생들의 창의적인 영화 작품들을 확인해보세요." />
       </Helmet>
 
       <div className="py-20 bg-white">

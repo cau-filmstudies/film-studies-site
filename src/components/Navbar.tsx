@@ -13,7 +13,7 @@ const Navbar = () => {
     {
       key: 'about',
       label: t('nav.about'),
-      path: '/about',
+      path: '/about/major',
       submenu: [
         {
           key: 'major',
@@ -50,7 +50,7 @@ const Navbar = () => {
     {
       key: 'education',
       label: t('nav.education'),
-      path: '/education',
+      path: '/education/goals',
       submenu: [
         {
           key: 'goals',
@@ -72,7 +72,7 @@ const Navbar = () => {
     {
       key: 'admissions',
       label: t('nav.admissions'),
-      path: '/admissions',
+      path: '/admissions/guide',
       submenu: [
         {
           key: 'guide',
@@ -89,7 +89,7 @@ const Navbar = () => {
     {
       key: 'community',
       label: t('nav.community'),
-      path: '/community',
+      path: '/community/board',
       submenu: [
         {
           key: 'board',
@@ -128,11 +128,12 @@ const Navbar = () => {
     >
       <div className="container-custom">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-accent rounded-lg"></div>
-            <span className="font-serif font-semibold text-lg text-primary">
-              영화학과
-            </span>
+          <Link to="/" className="flex items-center">
+            <img 
+              src="/images/CAU_emblem.png" 
+              alt="CAU Emblem" 
+              className="w-12 h-12 object-contain hover:opacity-80 transition-opacity duration-200"
+            />
           </Link>
 
           <div className="hidden lg:flex items-center space-x-8">

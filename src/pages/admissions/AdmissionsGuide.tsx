@@ -8,10 +8,10 @@ const AdmissionsGuide = () => {
   return (
     <>
       <Helmet>
-        <title>입학안내 - 중앙대학교 영화학과</title>
+        <title>입학안내 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 입학안내입니다."
+          content="중앙대학교 공연영상창작학부 영화전공 입학안내입니다."
         />
       </Helmet>
       <div className="py-20 bg-white">
@@ -27,7 +27,7 @@ const AdmissionsGuide = () => {
             </h1>
             <div className="prose prose-lg mx-auto mb-12">
               <p>
-                중앙대학교 영화학과에 입학을 희망하는 학생들을 위한 안내입니다.
+                중앙대학교 공연영상창작학부 영화전공에 입학을 희망하는 학생들을 위한 안내입니다.
               </p>
               <ul>
                 <li>지원 자격: 고등학교 졸업(예정)자 또는 동등 학력 소지자</li>

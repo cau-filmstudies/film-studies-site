@@ -35,8 +35,8 @@ const Admissions = () => {
   return (
     <>
       <Helmet>
-        <title>입학 안내 - 중앙대학교 영화학과</title>
-        <meta name="description" content="중앙대학교 영화학과 입학 안내 및 지원 방법을 확인해보세요." />
+        <title>입학 안내 - 중앙대학교 공연영상창작학부 영화전공</title>
+        <meta name="description" content="중앙대학교 공연영상창작학부 영화전공 입학 안내 및 지원 방법을 확인해보세요." />
       </Helmet>
 
       <div className="py-20 bg-white">

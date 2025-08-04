@@ -9,10 +9,10 @@ const AboutMajor = () => {
   return (
     <>
       <Helmet>
-        <title>전공소개 - 중앙대학교 영화학과</title>
+        <title>전공소개 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 전공소개입니다."
+          content="중앙대학교 공연영상창작학부 영화전공 전공소개입니다."
         />
       </Helmet>
 
@@ -31,7 +31,7 @@ const AboutMajor = () => {
               <div className="prose prose-lg mx-auto">
                 <h2>영화학과 소개</h2>
                 <p>
-                  중앙대학교 영화학과는 1960년 설립 이래 한국 영화계를 이끌어온
+                  중앙대학교 공연영상창작학부 영화전공은 1960년 설립 이래 한국 영화계를 이끌어온
                   최고의 영화 교육기관입니다. 실무 중심의 교육과정과 최첨단
                   시설을 통해 학생들이 영화 제작의 모든 과정을 경험할 수 있도록
                   지원합니다.

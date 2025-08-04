@@ -30,10 +30,10 @@ const AboutCampus = () => {
   return (
     <>
       <Helmet>
-        <title>캠퍼스안내 - 중앙대학교 영화학과</title>
+        <title>캠퍼스안내 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 캠퍼스 시설을 안내합니다."
+          content="중앙대학교 공연영상창작학부 영화전공 캠퍼스 시설을 안내합니다."
         />
       </Helmet>
 
@@ -52,7 +52,7 @@ const AboutCampus = () => {
             <div className="prose prose-lg mx-auto mb-12">
               <h2>최첨단 영화 제작 시설</h2>
               <p>
-                중앙대학교 영화학과는 학생들이 영화 제작의 모든 과정을 경험할 수
+                중앙대학교 공연영상창작학부 영화전공은 학생들이 영화 제작의 모든 과정을 경험할 수
                 있도록 최첨단 시설을 제공합니다. 실제 영화 현장과 동일한
                 환경에서 실습하며 전문적인 영화 제작 능력을 기를 수 있습니다.
               </p>

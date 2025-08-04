@@ -6,6 +6,10 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 
+// Faculty pages
+import FacultyList from './pages/FacultyList'
+import FacultyDetail from './pages/FacultyDetail'
+
 // About pages
 import AboutMajor from './pages/about/AboutMajor'
 import AboutHistory from './pages/about/AboutHistory'
@@ -40,6 +44,11 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* Faculty routes */}
+            <Route path="/faculty" element={<FacultyList />} />
+            <Route path="/faculty/:slug" element={<FacultyDetail />} />
+            <Route path="/about/faculty/:slug" element={<FacultyDetail />} />
 
             {/* About routes */}
             <Route path="/about/major" element={<AboutMajor />} />

@@ -8,10 +8,10 @@ const AboutAlumni = () => {
   return (
     <>
       <Helmet>
-        <title>동문소개 - 중앙대학교 영화학과</title>
+        <title>동문소개 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 동문을 소개합니다."
+          content="중앙대학교 공연영상창작학부 영화전공 동문을 소개합니다."
         />
       </Helmet>
       <div className="py-20 bg-white">
@@ -27,7 +27,7 @@ const AboutAlumni = () => {
             </h1>
             <div className="prose prose-lg mx-auto">
               <p>
-                중앙대학교 영화학과의 동문들은 국내외 영화계에서 활발히 활동하며
+                중앙대학교 공연영상창작학부 영화전공의 동문들은 국내외 영화계에서 활발히 활동하며
                 다양한 분야에서 리더십을 발휘하고 있습니다.
               </p>
               <ul>

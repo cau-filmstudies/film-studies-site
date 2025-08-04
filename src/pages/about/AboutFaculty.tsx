@@ -12,7 +12,9 @@ const AboutFaculty = () => {
   useEffect(() => {
     const loadFacultyData = async () => {
       try {
+        console.log('Loading faculty data...')
         const facultyData = await loadFaculty()
+        console.log('Faculty data loaded:', facultyData)
         setFaculty(facultyData)
       } catch (error) {
         console.error('Error loading faculty:', error)
@@ -25,10 +27,10 @@ const AboutFaculty = () => {
   return (
     <>
       <Helmet>
-        <title>교수진 - 중앙대학교 영화학과</title>
+        <title>교수진 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 교수진을 소개합니다."
+          content="중앙대학교 공연영상창작학부 영화전공 교수진을 소개합니다."
         />
       </Helmet>
 
@@ -55,9 +57,21 @@ const AboutFaculty = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow"
+                className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow cursor-pointer group"
+                onClick={() => window.location.href = `/about/faculty/${member.slug}`}
               >
-                <div className="w-32 h-32 bg-accent rounded-full mx-auto mb-6"></div>
+                <div className="relative w-32 h-32 mx-auto mb-6">
+                  <img
+                    src={member.photo}
+                    alt={member.title}
+                    className="w-32 h-32 rounded-full object-cover mx-auto group-hover:opacity-80 transition-opacity duration-200"
+                  />
+                  <div className="absolute inset-0 bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                    <div className="bg-white/90 rounded-lg px-3 py-1 text-sm font-medium text-gray-800">
+                      자세히 보기
+                    </div>
+                  </div>
+                </div>
                 <h3 className="font-serif text-2xl font-bold text-primary text-center mb-2">
                   {member.title}
                 </h3>
@@ -76,6 +90,7 @@ const AboutFaculty = () => {
                   <a
                     href={`mailto:${member.email}`}
                     className="text-accent hover:text-accent/80 transition-colors"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {member.email}
                   </a>

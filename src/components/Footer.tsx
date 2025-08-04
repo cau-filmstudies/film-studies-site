@@ -11,11 +11,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Department Info */}
           <div className="md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-accent rounded-lg"></div>
-              <span className="font-serif font-semibold text-xl">
-                중앙대학교 영화학과
-              </span>
+            <div className="flex items-center space-x-3 mb-4">
+              <img 
+                src="/images/CAU_emblem.png" 
+                alt="CAU Emblem" 
+                className="w-12 h-12 object-contain"
+              />
+                             <span className="font-serif font-semibold text-xl">
+                 중앙대학교 공연영상창작학부 영화전공
+               </span>
             </div>
             <p className="text-white/80 mb-4 max-w-md">
               미래의 영화인들이 시작하는 곳에서 창의적이고 혁신적인 영화 교육을
@@ -84,9 +88,9 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/20 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-white/60 text-sm">
-            © 2024 중앙대학교 영화학과. All rights reserved.
-          </p>
+                     <p className="text-white/60 text-sm">
+             © 2024 중앙대학교 공연영상창작학부 영화전공. All rights reserved.
+           </p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <a
               href="#"

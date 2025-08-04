@@ -21,7 +21,7 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
-          <h1 className="font-serif text-5xl md:text-7xl font-bold">
+          <h1 className="font-serif text-5xl md:text-7xl font-bold break-keep">
             {t('hero.title')}
           </h1>
           <p className="text-xl md:text-2xl text-accent font-medium">

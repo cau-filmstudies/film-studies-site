@@ -8,8 +8,8 @@ const CommunityGallery = () => {
   return (
     <>
       <Helmet>
-        <title>사진첩 - 중앙대학교 영화학과</title>
-        <meta name="description" content="중앙대학교 영화학과 사진첩입니다." />
+        <title>사진첩 - 중앙대학교 공연영상창작학부 영화전공</title>
+        <meta name="description" content="중앙대학교 공연영상창작학부 영화전공 사진첩입니다." />
       </Helmet>
       <div className="py-20 bg-white">
         <div className="container-custom">

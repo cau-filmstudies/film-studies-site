@@ -8,10 +8,10 @@ const AdmissionsRequirements = () => {
   return (
     <>
       <Helmet>
-        <title>모집요강 - 중앙대학교 영화학과</title>
+        <title>모집요강 - 중앙대학교 공연영상창작학부 영화전공</title>
         <meta
           name="description"
-          content="중앙대학교 영화학과 모집요강입니다."
+          content="중앙대학교 공연영상창작학부 영화전공 모집요강입니다."
         />
       </Helmet>
       <div className="py-20 bg-white">
