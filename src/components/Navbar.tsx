@@ -96,11 +96,6 @@ const Navbar = () => {
         },
 
         { key: 'faq', label: t('nav.community.faq'), path: '/community/faq' },
-        {
-          key: 'resources',
-          label: t('nav.community.resources'),
-          path: '/community/resources',
-        },
       ],
     },
   ]

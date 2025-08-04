@@ -1,13 +1,71 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import Hero from '../components/Hero'
 import { useLocale } from '../contexts/LocaleContext'
 
+interface BoardPost {
+  title: string
+  date: string
+  author?: string
+  thumbnail?: string
+  images?: Array<{ image: string }>
+  body: string
+  slug: string
+}
+
 
 const Home = () => {
   const { t } = useLocale()
+  const [boardPosts, setBoardPosts] = useState<BoardPost[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadBoardPosts = async () => {
+      try {
+        // Netlify Function을 통해 게시글을 가져옴
+        const response = await fetch('/.netlify/functions/get-board-posts')
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts')
+        }
+
+        const posts = await response.json()
+        // 최신 3개의 공지사항만 가져오기
+        setBoardPosts(posts.slice(0, 3))
+      } catch (error) {
+        console.error('Error loading board posts:', error)
+        // API 실패 시 기본 데이터 사용
+        setBoardPosts([
+          {
+            title: '2025학년도 1학기 수강신청 안내',
+            date: '2024-12-19',
+            author: '영화학과 관리자',
+            body: '2025학년도 1학기 수강신청이 시작됩니다. 자세한 일정과 방법을 확인하세요.',
+            slug: '20241219-course-registration',
+          },
+          {
+            title: '겨울방학 중 시설 이용 안내',
+            date: '2024-12-18',
+            author: '영화학과 관리자',
+            body: '겨울방학 중 시설 이용에 관한 안내사항입니다.',
+            slug: '20241218-facility-notice',
+          },
+          {
+            title: '졸업작품전 개최 안내',
+            date: '2024-12-17',
+            author: '영화학과 관리자',
+            body: '졸업작품전이 개최됩니다. 많은 관심과 참여 부탁드립니다.',
+            slug: '20241217-graduation-exhibition',
+          },
+        ])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadBoardPosts()
+  }, [])
 
   return (
     <>
@@ -67,29 +125,36 @@ const Home = () => {
                 <h3 className="font-serif text-2xl font-bold text-primary mb-4">
                   공지사항
                 </h3>
-                <div className="space-y-4 mb-6">
-                  <div className="bg-white/50 rounded-lg p-4 text-left">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-accent font-semibold">[공지]</span>
-                      <span className="text-xs text-muted">2024.12.19</span>
-                    </div>
-                    <p className="text-sm text-primary font-medium">2025학년도 1학기 수강신청 안내</p>
-                  </div>
-                  <div className="bg-white/50 rounded-lg p-4 text-left">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-accent font-semibold">[안내]</span>
-                      <span className="text-xs text-muted">2024.12.18</span>
-                    </div>
-                    <p className="text-sm text-primary font-medium">겨울방학 중 시설 이용 안내</p>
-                  </div>
-                  <div className="bg-white/50 rounded-lg p-4 text-left">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-accent font-semibold">[행사]</span>
-                      <span className="text-xs text-muted">2024.12.17</span>
-                    </div>
-                    <p className="text-sm text-primary font-medium">졸업작품전 개최 안내</p>
-                  </div>
-                </div>
+                                 <div className="space-y-4 mb-6">
+                   {loading ? (
+                     <div className="text-center py-4">
+                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-accent mx-auto"></div>
+                       <p className="text-xs text-muted mt-2">로딩 중...</p>
+                     </div>
+                   ) : boardPosts.length > 0 ? (
+                     boardPosts.map((post, index) => (
+                       <div key={post.slug} className="bg-white/50 rounded-lg p-4 text-left">
+                         <div className="flex items-center justify-between mb-2">
+                           <span className="text-sm text-accent font-semibold">[공지]</span>
+                           <span className="text-xs text-muted">
+                             {new Date(post.date).toLocaleDateString('ko-KR', {
+                               year: 'numeric',
+                               month: '2-digit',
+                               day: '2-digit'
+                             })}
+                           </span>
+                         </div>
+                         <p className="text-sm text-primary font-medium line-clamp-2">
+                           {post.title}
+                         </p>
+                       </div>
+                     ))
+                   ) : (
+                     <div className="text-center py-4">
+                       <p className="text-sm text-muted">아직 공지사항이 없습니다.</p>
+                     </div>
+                   )}
+                 </div>
                 <Link 
                   to="/community/board" 
                   className="inline-flex items-center btn-secondary"

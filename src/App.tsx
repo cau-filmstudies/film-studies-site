@@ -28,7 +28,6 @@ import AdmissionsGuide from './pages/admissions/AdmissionsGuide'
 
 // Community pages
 import CommunityFAQ from './pages/community/CommunityFAQ'
-import CommunityResources from './pages/community/CommunityResources'
 import CommunityBoard from './pages/community/CommunityBoard'
 
 // CMS pages
@@ -76,10 +75,6 @@ function App() {
               element={<Navigate to="/community/board" replace />}
             />
             <Route path="/community/faq" element={<CommunityFAQ />} />
-            <Route
-              path="/community/resources"
-              element={<CommunityResources />}
-            />
             <Route path="/community/board" element={<CommunityBoard />} />
 
             {/* CMS routes */}
