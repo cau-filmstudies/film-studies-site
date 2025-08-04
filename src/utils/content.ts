@@ -29,42 +29,7 @@ export const getBoardPosts = async (): Promise<BoardPost[]> => {
       },
     ]
 
-    // 동적 로딩 시도 (선택사항)
-    let dynamicPosts: BoardPost[] = []
-    try {
-      const boardModules = (import.meta as any).glob(
-        '/content/board/*.{md,mdx}',
-        {
-          eager: true,
-          import: 'default',
-        }
-      )
-
-      dynamicPosts = Object.entries(boardModules).map(([path, content]) => {
-        const slug = path
-          .replace('/content/board/', '')
-          .replace(/\.(md|mdx)$/, '')
-        const { data, content: bodyContent } = matter(content as string)
-
-        return {
-          title: data.title || '',
-          date: data.date || '',
-          author: data.author || '',
-          body: bodyContent,
-          slug,
-        }
-      })
-    } catch (error) {
-      console.log('Dynamic loading failed, using default posts only')
-    }
-
-    // 기본 포스트와 동적 포스트를 합치고 중복 제거
-    const allPosts = [...defaultPosts, ...dynamicPosts]
-    const uniquePosts = allPosts.filter(
-      (post, index, self) => index === self.findIndex(p => p.slug === post.slug)
-    )
-
-    return uniquePosts.sort(
+    return defaultPosts.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )
   } catch (error) {
@@ -94,38 +59,7 @@ export const getBoardPost = async (slug: string): Promise<BoardPost | null> => {
     ]
 
     const post = defaultPosts.find(p => p.slug === slug)
-    if (post) {
-      return post
-    }
-
-    // 동적 로딩 시도
-    try {
-      const module = await import(`/content/board/${slug}.mdx`)
-      const { data, content } = matter(module.default)
-
-      return {
-        title: data.title || '',
-        date: data.date || '',
-        author: data.author || '',
-        body: content,
-        slug,
-      }
-    } catch {
-      try {
-        const module = await import(`/content/board/${slug}.md`)
-        const { data, content } = matter(module.default)
-
-        return {
-          title: data.title || '',
-          date: data.date || '',
-          author: data.author || '',
-          body: content,
-          slug,
-        }
-      } catch {
-        return null
-      }
-    }
+    return post || null
   } catch (error) {
     console.error('Error reading board post:', error)
     return null

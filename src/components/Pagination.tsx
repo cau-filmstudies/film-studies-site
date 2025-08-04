@@ -8,7 +8,7 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange
 }) => {
   const getPageNumbers = () => {
-    const pages = []
+    const pages: (number | string)[] = []
     const maxVisible = 5
     
     if (totalPages <= maxVisible) {
