@@ -182,6 +182,17 @@ const NoticeDetail = () => {
                     blockquote: ({ children }) => <blockquote className="border-l-4 border-primary pl-4 italic text-gray-600 mb-4">{children}</blockquote>,
                     code: ({ children }) => <code className="bg-gray-100 px-2 py-1 rounded text-sm">{children}</code>,
                     pre: ({ children }) => <pre className="bg-gray-100 p-4 rounded mb-4 overflow-x-auto">{children}</pre>,
+                    img: ({ src, alt }) => (
+                      <img 
+                        src={src} 
+                        alt={alt || ''} 
+                        className="max-w-full h-auto rounded-lg shadow-md my-4"
+                        onError={(e) => {
+                          console.error('Image failed to load:', src);
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ),
                   }}
                 >
                   {notice.body}
