@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { useSearchParams, Link } from 'react-router-dom'
 import { Notice, NoticeFilters } from '../types/notice'
+import { getBoardPosts, getRateLimitStatus } from '../utils/api'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
 
@@ -10,9 +11,15 @@ const NoticeBoard = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [notices, setNotices] = useState<Notice[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [rateLimitInfo, setRateLimitInfo] = useState<{
+    remaining: number
+    resetTime: number
+    isBlocked: boolean
+  } | null>(null)
   const [filters, setFilters] = useState<NoticeFilters>({
     searchTerm: '',
-    searchBy: 'title'
+    searchBy: 'title',
   })
 
   const currentPage = parseInt(searchParams.get('page') || '1')
@@ -21,28 +28,51 @@ const NoticeBoard = () => {
   useEffect(() => {
     const loadNotices = async () => {
       try {
-        // GitHub Gateway API를 통해 동적으로 데이터 가져오기
-        const response = await fetch('/.netlify/functions/get-board-posts')
-        if (!response.ok) {
-          throw new Error('Failed to fetch notices')
+        setLoading(true)
+        setError(null)
+
+        // Rate Limit 상태 확인
+        const rateLimit = getRateLimitStatus(
+          '/.netlify/functions/get-board-posts'
+        )
+        setRateLimitInfo(rateLimit)
+
+        if (rateLimit.isBlocked) {
+          const waitTime = Math.ceil((rateLimit.resetTime - Date.now()) / 1000)
+          setError(
+            `요청이 너무 많습니다. ${waitTime}초 후에 다시 시도해주세요.`
+          )
+          return
         }
-        const data = await response.json()
-        
+
+        // 안전한 API 호출
+        const data = await getBoardPosts()
+
         // API 응답을 Notice 형식으로 변환
-        const transformedNotices: Notice[] = data.map((post: any, index: number) => ({
-          id: (index + 1).toString(),
-          title: post.title || '',
-          date: post.date || '',
-          author: post.author || '',
-          pinned: false, // 필요시 frontmatter에서 pinned 필드 추가 가능
-          body: post.body || '',
-          slug: post.slug || '',
-          views: 0 // Views는 제거하므로 0으로 설정
-        }))
-        
+        const transformedNotices: Notice[] = data.map(
+          (post: any, index: number) => ({
+            id: (index + 1).toString(),
+            title: post.title || '',
+            date: post.date || '',
+            author: post.author || '',
+            pinned: false, // 필요시 frontmatter에서 pinned 필드 추가 가능
+            body: post.body || '',
+            slug: post.slug || '',
+            views: 0, // Views는 제거하므로 0으로 설정
+          })
+        )
+
         setNotices(transformedNotices)
       } catch (error) {
         console.error('Error loading notices:', error)
+
+        // Rate Limit 오류 처리
+        if (error instanceof Error && error.message.includes('Rate limit')) {
+          setError(error.message)
+        } else {
+          setError('게시글을 불러오는 중 오류가 발생했습니다.')
+        }
+
         // API 실패 시 기본 데이터 사용
         setNotices([
           {
@@ -53,7 +83,7 @@ const NoticeBoard = () => {
             views: 0,
             pinned: true,
             body: '안녕하세요! 중앙대학교 공연영상창작학부 영화전공 웹사이트에 오신 것을 환영합니다...',
-            slug: '20250115-welcome-notice'
+            slug: '20250115-welcome-notice',
           },
           {
             id: '2',
@@ -63,7 +93,7 @@ const NoticeBoard = () => {
             views: 0,
             pinned: false,
             body: '2025학년도 1학기 커리큘럼이 업데이트되었습니다...',
-            slug: '20250110-curriculum-update'
+            slug: '20250110-curriculum-update',
           },
           {
             id: '3',
@@ -73,8 +103,8 @@ const NoticeBoard = () => {
             views: 0,
             pinned: true,
             body: '졸업작품 제출 일정이 확정되었습니다...',
-            slug: '20250108-graduation-works'
-          }
+            slug: '20250108-graduation-works',
+          },
         ])
       } finally {
         setLoading(false)
@@ -125,6 +155,48 @@ const NoticeBoard = () => {
     )
   }
 
+  if (error) {
+    return (
+      <div className="py-20 bg-white">
+        <div className="container-custom">
+          <div className="text-center">
+            <div className="text-red-500 mb-4">
+              <svg
+                className="w-12 h-12 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              오류가 발생했습니다
+            </h2>
+            <p className="text-muted mb-4">{error}</p>
+            {rateLimitInfo && rateLimitInfo.isBlocked && (
+              <p className="text-sm text-muted">
+                남은 요청: {rateLimitInfo.remaining}회 | 재설정 시간:{' '}
+                {new Date(rateLimitInfo.resetTime).toLocaleTimeString()}
+              </p>
+            )}
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+            >
+              다시 시도
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <Helmet>
@@ -156,11 +228,21 @@ const NoticeBoard = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b-2 border-gray-300">
-                    <th className="px-4 py-3 text-left font-semibold text-primary">No.</th>
-                    <th className="px-4 py-3 text-left font-semibold text-primary">NOTICE</th>
-                    <th className="px-4 py-3 text-left font-semibold text-primary">Title</th>
-                    <th className="px-4 py-3 text-left font-semibold text-primary">Author</th>
-                    <th className="px-4 py-3 text-left font-semibold text-primary">Date</th>
+                    <th className="px-4 py-3 text-left font-semibold text-primary">
+                      No.
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-primary">
+                      NOTICE
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-primary">
+                      Title
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-primary">
+                      Author
+                    </th>
+                    <th className="px-4 py-3 text-left font-semibold text-primary">
+                      Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -231,4 +313,4 @@ const NoticeBoard = () => {
   )
 }
 
-export default NoticeBoard 
+export default NoticeBoard

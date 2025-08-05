@@ -111,11 +111,27 @@ pnpm preview
 
 #### CMS 접속
 
-개발 서버가 실행 중일 때 다음 URL로 CMS에 접속할 수 있습니다:
+개발 서버가 실행 중일 때 CMS에 접속할 수 있습니다. 관리자 페이지 URL은 환경 변수로 설정됩니다.
 
-```
-http://localhost:5173/admin
-```
+#### 보안 설정
+
+관리자 페이지 접근을 위한 보안 설정:
+
+1. **환경 변수 설정**:
+
+   ```bash
+   # .env 파일에 추가
+   VITE_ADMIN_PATH=your-secure-admin-path
+   VITE_GITHUB_CLIENT_ID=your_client_id
+   VITE_GITHUB_CLIENT_SECRET=your_client_secret
+   VITE_MAX_LOGIN_ATTEMPTS=5
+   VITE_SESSION_TIMEOUT=3600000
+   ```
+
+2. **관리자 페이지 URL 보안**:
+   - 예측하기 어려운 URL 사용
+   - 환경 변수를 통한 동적 설정
+   - 접근 로그 모니터링
 
 #### CMS 문제 해결
 
@@ -143,7 +159,7 @@ Decap CMS에 문제가 있는 경우 다음 대안을 고려할 수 있습니다
    - GitHub Settings → Developer settings → OAuth Apps → New OAuth App
    - Application name: `CAU Film Studies CMS`
    - Homepage URL: `https://your-domain.com`
-   - Authorization callback URL: `https://your-domain.com/admin`
+   - Authorization callback URL: `https://your-domain.com/[관리자경로]`
 
 2. 생성된 Client ID와 Client Secret을 환경 변수로 설정:
    ```bash
@@ -154,7 +170,7 @@ Decap CMS에 문제가 있는 경우 다음 대안을 고려할 수 있습니다
 
 **2단계: CMS에 로그인**
 
-1. `/admin` 페이지에 접속
+1. 관리자 페이지에 접속
 2. "Login with GitHub" 버튼 클릭
 3. GitHub 계정으로 인증
 

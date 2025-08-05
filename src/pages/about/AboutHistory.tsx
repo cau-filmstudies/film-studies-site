@@ -10,7 +10,7 @@ const AboutHistory = () => {
     {
       year: '1960',
       title: '영화학과 설립',
-              description: '중앙대학교 공연영상창작학부 영화전공이 설립되었습니다.',
+      description: '중앙대학교 공연영상창작학부 영화전공이 설립되었습니다.',
     },
     {
       year: '1970',

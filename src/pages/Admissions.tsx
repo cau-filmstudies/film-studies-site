@@ -36,7 +36,10 @@ const Admissions = () => {
     <>
       <Helmet>
         <title>입학 안내 - 중앙대학교 공연영상창작학부 영화전공</title>
-        <meta name="description" content="중앙대학교 공연영상창작학부 영화전공 입학 안내 및 지원 방법을 확인해보세요." />
+        <meta
+          name="description"
+          content="중앙대학교 공연영상창작학부 영화전공 입학 안내 및 지원 방법을 확인해보세요."
+        />
       </Helmet>
 
       <div className="py-20 bg-white">
@@ -72,9 +75,7 @@ const Admissions = () => {
                     <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-lg mb-4">
                       {index + 1}
                     </div>
-                    <h3 className="font-semibold text-primary mb-2">
-                      {step}
-                    </h3>
+                    <h3 className="font-semibold text-primary mb-2">{step}</h3>
                   </div>
                 ))}
               </div>
@@ -163,4 +164,4 @@ const Admissions = () => {
   )
 }
 
-export default Admissions 
+export default Admissions
