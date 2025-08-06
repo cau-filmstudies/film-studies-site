@@ -33,7 +33,7 @@ const translations = {
     'section.faculty': '교수진',
     'section.projects': '학생 프로젝트',
     'section.admissions': '입학 안내',
-    'footer.address': '서울특별시 동작구 흑석로 84',
+    'footer.address': '서울캠퍼스(흑석동) 301관(중앙문화예술관) 507호 공연영상창작학부',
     'footer.contact': '연락처',
     'footer.social': '소셜 미디어',
     'common.readMore': '더 보기',

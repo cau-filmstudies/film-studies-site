@@ -31,7 +31,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="font-serif font-semibold text-lg mb-4">
-              {t('nav.about')}``
+              {t('nav.about')}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -69,10 +69,10 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="text-white/80">
                 <a
-                  href="tel:+82-2-820-0000"
+                  href="tel:+2-820-0000"
                   className="hover:text-accent transition-colors"
                 >
-                  +82-2-820-0000
+                  02-820-5799
                 </a>
               </li>
               <li className="text-white/80">
